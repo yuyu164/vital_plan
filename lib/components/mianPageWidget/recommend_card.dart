@@ -18,7 +18,7 @@ class _RecommendDartState extends State<RecommendDart> {
         },
         child: Container(
           alignment: Alignment.center,
-          width: MediaQuery.of(context).size.width * 0.5,
+          width: double.infinity,
           height: 100,
           decoration: BoxDecoration(
             color: Colors.blue,

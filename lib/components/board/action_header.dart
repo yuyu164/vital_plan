@@ -25,10 +25,7 @@ class ActionHeader extends StatelessWidget {
               gradient: LinearGradient(
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
-                colors: [
-                  Colors.transparent,
-                  Colors.black.withOpacity(0.7),
-                ],
+                colors: [Colors.transparent, Colors.black.withOpacity(0.7)],
                 stops: [0.6, 1.0],
               ),
             ),
@@ -46,7 +43,9 @@ class ActionHeader extends StatelessWidget {
                 Row(
                   children: List.generate(5, (index) {
                     return Icon(
-                      index < action.difficulty ? Icons.star : Icons.star_border,
+                      index < action.difficulty
+                          ? Icons.star
+                          : Icons.star_border,
                       color: Colors.amber,
                       size: 20,
                     );
@@ -79,9 +78,7 @@ class ActionHeader extends StatelessWidget {
 
   Widget _buildBackground() {
     return Container(
-      decoration: BoxDecoration(
-        color: Colors.grey[800],
-      ),
+      decoration: BoxDecoration(color: Colors.grey[800]),
       child: Stack(
         fit: StackFit.expand,
         children: [
@@ -111,11 +108,7 @@ class ActionHeader extends StatelessWidget {
 
   Widget _buildPlaceholder() {
     return Center(
-      child: Icon(
-        Icons.play_circle_outline,
-        color: Colors.white24,
-        size: 80,
-      ),
+      child: Icon(Icons.play_circle_outline, color: Colors.white24, size: 80),
     );
   }
 }
