@@ -19,7 +19,11 @@ class _FirstRowState extends State<FirstRow> {
           Expanded(
             child: GestureDetector(
               onTap: () {
-                Navigator.pushNamed(context, "/board");
+                Navigator.pushNamed(
+                  context,
+                  "/board",
+                  arguments: {'boardId': 'normal'},
+                );
               },
               child: Container(
                 alignment: Alignment.center,
@@ -36,7 +40,11 @@ class _FirstRowState extends State<FirstRow> {
           Expanded(
             child: GestureDetector(
               onTap: () {
-                Navigator.pushNamed(context, "/board");
+                Navigator.pushNamed(
+                  context,
+                  "/board",
+                  arguments: {'boardId': 'late_sleep'},
+                );
               },
               child: Container(
                 alignment: Alignment.center,
@@ -53,7 +61,11 @@ class _FirstRowState extends State<FirstRow> {
           Expanded(
             child: GestureDetector(
               onTap: () {
-                Navigator.pushNamed(context, "/board");
+                Navigator.pushNamed(
+                  context,
+                  "/board",
+                  arguments: {'boardId': 'eye_strain'},
+                );
               },
               child: Container(
                 alignment: Alignment.center,

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:vital_plan/components/mianPageWidget/first_row.dart';
 import 'package:vital_plan/components/mianPageWidget/recommend_card.dart';
 import 'package:vital_plan/components/mianPageWidget/second_row.dart';
+import 'package:vital_plan/components/common/coin_badge.dart';
 
 class MainPage extends StatefulWidget {
   MainPage({Key? key}) : super(key: key);
@@ -30,15 +31,7 @@ class _MainPageState extends State<MainPage> {
             ],
           ),
         ),
-        actions: [
-          Text("金币"),
-          SizedBox(width: 10),
-          Image.asset(
-            "lib/assets/images/coin/honest_graphic-money-bag-9772256_1920.png",
-            width: 20,
-            height: 20,
-          ),
-        ],
+        actions: [CoinBadge()],
       ),
       body: Flex(
         direction: Axis.vertical,

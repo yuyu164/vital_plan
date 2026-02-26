@@ -19,7 +19,11 @@ class _SecondRowState extends State<SecondRow> {
           Expanded(
             child: GestureDetector(
               onTap: () {
-                Navigator.pushNamed(context, "/board");
+                Navigator.pushNamed(
+                  context,
+                  "/board",
+                  arguments: {'boardId': 'neck_pain'},
+                );
               },
               child: Container(
                 alignment: Alignment.center,

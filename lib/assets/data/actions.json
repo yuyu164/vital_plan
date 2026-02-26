@@ -1,0 +1,427 @@
+[
+  {
+    "id": "act_normal_01",
+    "board": "normal",
+    "title": "穴位点按：百会+风府",
+    "description": "百会穴+风府穴一起点，2-3分钟，时间不宜过长",
+    "duration": "2m",
+    "difficulty": 1,
+    "interactionType": "TIMER",
+    "assets": {
+      "gif": "assets/images/actions/normal_01.gif",
+      "poster": "assets/images/actions/normal_01_poster.png"
+    },
+    "rewards": {
+      "coins": 30,
+      "exp": 5
+    }
+  },
+  {
+    "id": "act_normal_02",
+    "board": "normal",
+    "title": "护眼放松：远眺+轻揉",
+    "description": "看窗外6米外绿植/远处30秒，闭眼轻揉眼周，缓解用眼疲劳",
+    "duration": "1m",
+    "difficulty": 1,
+    "interactionType": "TIMER",
+    "assets": {
+      "gif": "assets/images/actions/normal_02.gif",
+      "poster": "assets/images/actions/normal_02_poster.png"
+    },
+    "rewards": {
+      "coins": 30,
+      "exp": 5
+    }
+  },
+  {
+    "id": "act_normal_03",
+    "board": "normal",
+    "title": "颈椎舒缓",
+    "description": "缓慢低头、抬头、左右转头各5次，再上下耸肩10次，放松肩颈僵硬",
+    "duration": "2m",
+    "difficulty": 1,
+    "interactionType": "TIMER",
+    "assets": {
+      "gif": "assets/images/actions/normal_03.gif",
+      "poster": "assets/images/actions/normal_03_poster.png"
+    },
+    "rewards": {
+      "coins": 30,
+      "exp": 5
+    }
+  },
+  {
+    "id": "act_normal_04",
+    "board": "normal",
+    "title": "腰背拉伸",
+    "description": "坐姿挺直，双手向上举过头顶拉伸，再向左右轻侧屈，舒展腰背",
+    "duration": "1m",
+    "difficulty": 1,
+    "interactionType": "TIMER",
+    "assets": {
+      "gif": "assets/images/actions/normal_04.gif",
+      "poster": "assets/images/actions/normal_04_poster.png"
+    },
+    "rewards": {
+      "coins": 20,
+      "exp": 3
+    }
+  },
+  {
+    "id": "act_normal_05",
+    "board": "normal",
+    "title": "手部放松",
+    "description": "用力握拳再快速张开，重复10次，甩甩手缓解写字僵硬",
+    "duration": "1m",
+    "difficulty": 1,
+    "interactionType": "TIMER",
+    "assets": {
+      "gif": "assets/images/actions/normal_05.gif",
+      "poster": "assets/images/actions/normal_05_poster.png"
+    },
+    "rewards": {
+      "coins": 20,
+      "exp": 3
+    }
+  },
+  {
+    "id": "act_normal_06",
+    "board": "normal",
+    "title": "腿部舒展",
+    "description": "站立踮脚再放下，或坐姿勾脚尖、绷脚尖，促进下肢循环",
+    "duration": "1m",
+    "difficulty": 1,
+    "interactionType": "TIMER",
+    "assets": {
+      "gif": "assets/images/actions/normal_06.gif",
+      "poster": "assets/images/actions/normal_06_poster.png"
+    },
+    "rewards": {
+      "coins": 20,
+      "exp": 3
+    }
+  },
+  {
+    "id": "act_normal_07",
+    "board": "normal",
+    "title": "八段锦选做",
+    "description": "八段锦片段（如“一、二、三、四、五、六、七、八”），每个片段2-3分钟",
+    "duration": "3m",
+    "difficulty": 5,
+    "interactionType": "TIMER",
+    "assets": {
+      "gif": "assets/images/actions/baduanjin.gif",
+      "poster": "assets/images/actions/baduanjin_poster.png"
+    },
+    "rewards": {
+      "coins": 200,
+      "exp": 50
+    }
+  },
+  {
+    "id": "act_normal_08",
+    "board": "normal",
+    "title": "明目功",
+    "description": "道家养生明目功，系统性锻炼眼部肌肉与经络",
+    "duration": "5m",
+    "difficulty": 5,
+    "interactionType": "TIMER",
+    "assets": {
+      "gif": "assets/images/actions/mingmu.gif",
+      "poster": "assets/images/actions/mingmu_poster.png"
+    },
+    "rewards": {
+      "coins": 180,
+      "exp": 40
+    }
+  },
+  {
+    "id": "act_neck_01",
+    "board": "neck_pain",
+    "title": "双肩耸立放松",
+    "description": "双肩用力往上耸，保持3秒，突然放松，重复3次",
+    "duration": "30s",
+    "difficulty": 1,
+    "interactionType": "TIMER",
+    "assets": {
+      "gif": "assets/images/actions/neck_01.gif",
+      "poster": "assets/images/actions/neck_01_poster.png"
+    },
+    "rewards": {
+      "coins": 30,
+      "exp": 5
+    }
+  },
+  {
+    "id": "act_neck_02",
+    "board": "neck_pain",
+    "title": "极慢点头",
+    "description": "低头→回正→抬头，5秒1次，做5次",
+    "duration": "1m",
+    "difficulty": 2,
+    "interactionType": "TIMER",
+    "assets": {
+      "gif": "assets/images/actions/neck_02.gif",
+      "poster": "assets/images/actions/neck_02_poster.png"
+    },
+    "rewards": {
+      "coins": 40,
+      "exp": 8
+    }
+  },
+  {
+    "id": "act_neck_03",
+    "board": "neck_pain",
+    "title": "极慢转头",
+    "description": "左转看左肩→回正→右转看右肩，5秒1次，做5次。全程不甩、不猛扭",
+    "duration": "1m",
+    "difficulty": 2,
+    "interactionType": "TIMER",
+    "assets": {
+      "gif": "assets/images/actions/neck_03.gif",
+      "poster": "assets/images/actions/neck_03_poster.png"
+    },
+    "rewards": {
+      "coins": 40,
+      "exp": 8
+    }
+  },
+  {
+    "id": "act_neck_04",
+    "board": "neck_pain",
+    "title": "双手抱头对抗",
+    "description": "双手抱后脑勺，头轻轻往后顶，手往前挡，用力5秒，放松5秒，做3次",
+    "duration": "1m",
+    "difficulty": 2,
+    "interactionType": "TIMER",
+    "assets": {
+      "gif": "assets/images/actions/neck_04.gif",
+      "poster": "assets/images/actions/neck_04_poster.png"
+    },
+    "rewards": {
+      "coins": 50,
+      "exp": 10
+    }
+  },
+  {
+    "id": "act_neck_05",
+    "board": "neck_pain",
+    "title": "侧颈拉伸",
+    "description": "左手放头顶轻拉向左侧，保持15秒，换边。肩膀放松、不要耸肩",
+    "duration": "1m",
+    "difficulty": 2,
+    "interactionType": "TIMER",
+    "assets": {
+      "gif": "assets/images/actions/neck_05.gif",
+      "poster": "assets/images/actions/neck_05_poster.png"
+    },
+    "rewards": {
+      "coins": 40,
+      "exp": 8
+    }
+  },
+  {
+    "id": "act_neck_06",
+    "board": "neck_pain",
+    "title": "抬头纠正坐姿",
+    "description": "抬头看远处30秒，下巴微收，别探脖子。坐姿：屁股坐满椅子，腰挺直，别窝着",
+    "duration": "1m",
+    "difficulty": 1,
+    "interactionType": "TIMER",
+    "assets": {
+      "gif": "assets/images/actions/neck_06.gif",
+      "poster": "assets/images/actions/neck_06_poster.png"
+    },
+    "rewards": {
+      "coins": 30,
+      "exp": 5
+    }
+  },
+  {
+    "id": "act_neck_07",
+    "board": "neck_pain",
+    "title": "穴位按压：风池+肩井",
+    "description": "先同时按压两边风池穴，再分别按压两边肩井穴伴随反方向九十度转头",
+    "duration": "2m",
+    "difficulty": 3,
+    "interactionType": "TIMER",
+    "assets": {
+      "gif": "assets/images/actions/neck_07.gif",
+      "poster": "assets/images/actions/neck_07_poster.png"
+    },
+    "rewards": {
+      "coins": 60,
+      "exp": 12
+    }
+  },
+  {
+    "id": "act_eye_01",
+    "board": "eye_strain",
+    "title": "按摩瞳子髎穴位",
+    "description": "按摩瞳子髎穴位",
+    "duration": "1m",
+    "difficulty": 1,
+    "interactionType": "TIMER",
+    "assets": {
+      "gif": "assets/images/actions/eye_01.gif",
+      "poster": "assets/images/actions/eye_01_poster.png"
+    },
+    "rewards": {
+      "coins": 30,
+      "exp": 5
+    }
+  },
+  {
+    "id": "act_eye_02",
+    "board": "eye_strain",
+    "title": "掌心温敷",
+    "description": "双手快速搓热，轻捂双眼30秒，不压眼球，重复2次，缓解酸胀僵硬",
+    "duration": "2m",
+    "difficulty": 1,
+    "interactionType": "TIMER",
+    "assets": {
+      "gif": "assets/images/actions/eye_02.gif",
+      "poster": "assets/images/actions/eye_02_poster.png"
+    },
+    "rewards": {
+      "coins": 40,
+      "exp": 8
+    }
+  },
+  {
+    "id": "act_eye_03",
+    "board": "eye_strain",
+    "title": "远眺松肌法",
+    "description": "看向6米外固定物体（窗外树、楼）30秒→闭眼10秒，循环3次，放松睫状肌",
+    "duration": "3m",
+    "difficulty": 1,
+    "interactionType": "TIMER",
+    "assets": {
+      "gif": "assets/images/actions/eye_03.gif",
+      "poster": "assets/images/actions/eye_03_poster.png"
+    },
+    "rewards": {
+      "coins": 40,
+      "exp": 8
+    }
+  },
+  {
+    "id": "act_eye_04",
+    "board": "eye_strain",
+    "title": "穴位轻按",
+    "description": "食指轻按睛明穴（眼头）、四白穴（眼下）、太阳穴，每个穴位按10秒，力度轻柔",
+    "duration": "1m",
+    "difficulty": 2,
+    "interactionType": "TIMER",
+    "assets": {
+      "gif": "assets/images/actions/eye_04.gif",
+      "poster": "assets/images/actions/eye_04_poster.png"
+    },
+    "rewards": {
+      "coins": 50,
+      "exp": 10
+    }
+  },
+  {
+    "id": "act_eye_mingmu",
+    "board": "eye_strain",
+    "title": "明目功",
+    "description": "明目功",
+    "duration": "5m",
+    "difficulty": 5,
+    "interactionType": "TIMER",
+    "assets": {
+      "gif": "assets/images/actions/mingmu.gif",
+      "poster": "assets/images/actions/mingmu_poster.png"
+    },
+    "rewards": {
+      "coins": 180,
+      "exp": 40
+    }
+  },
+  {
+    "id": "act_late_01",
+    "board": "late_sleep",
+    "title": "颈肩活血",
+    "description": "慢耸肩10次→左右转头各5次→双手搓热捂后颈30秒，改善脑供血不足",
+    "duration": "2m",
+    "difficulty": 2,
+    "interactionType": "TIMER",
+    "assets": {
+      "gif": "assets/images/actions/late_01.gif",
+      "poster": "assets/images/actions/late_01_poster.png"
+    },
+    "rewards": {
+      "coins": 40,
+      "exp": 8
+    }
+  },
+  {
+    "id": "act_late_02",
+    "board": "late_sleep",
+    "title": "提神拉伸",
+    "description": "坐直双手上举用力伸懒腰，再扩胸10次，驱散全身乏力犯困",
+    "duration": "2m",
+    "difficulty": 1,
+    "interactionType": "TIMER",
+    "assets": {
+      "gif": "assets/images/actions/late_02.gif",
+      "poster": "assets/images/actions/late_02_poster.png"
+    },
+    "rewards": {
+      "coins": 30,
+      "exp": 5
+    }
+  },
+  {
+    "id": "act_late_03",
+    "board": "late_sleep",
+    "title": "轻补水",
+    "description": "请去接一杯温水，慢慢喝下。",
+    "duration": "0",
+    "difficulty": 1,
+    "interactionType": "CHECKBOX",
+    "assets": {
+      "gif": "assets/images/actions/late_03.gif",
+      "poster": "assets/images/actions/late_03_poster.png"
+    },
+    "rewards": {
+      "coins": 20,
+      "exp": 5
+    }
+  },
+  {
+    "id": "act_late_04",
+    "board": "late_sleep",
+    "title": "补氧呼吸",
+    "description": "鼻吸4秒→嘴呼6秒，做8轮，缓解熬夜后的心慌、脑缺氧",
+    "duration": "2m",
+    "difficulty": 2,
+    "interactionType": "TIMER",
+    "assets": {
+      "gif": "assets/images/actions/late_04.gif",
+      "poster": "assets/images/actions/late_04_poster.png"
+    },
+    "rewards": {
+      "coins": 40,
+      "exp": 8
+    }
+  },
+  {
+    "id": "act_late_05",
+    "board": "late_sleep",
+    "title": "穴位按摩",
+    "description": "（身体保健恢复，非快速缓解头晕、犯困等）同时刺激中封穴和曲泉穴",
+    "duration": "2m",
+    "difficulty": 3,
+    "interactionType": "TIMER",
+    "assets": {
+      "gif": "assets/images/actions/late_05.gif",
+      "poster": "assets/images/actions/late_05_poster.png"
+    },
+    "rewards": {
+      "coins": 50,
+      "exp": 10
+    }
+  }
+]
