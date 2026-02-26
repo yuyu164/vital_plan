@@ -33,22 +33,44 @@ class _MainPageState extends State<MainPage> {
         ),
         actions: [CoinBadge()],
       ),
-      body: Flex(
-        direction: Axis.vertical,
-        children: [
-          Column(
-            mainAxisSize: MainAxisSize.max,
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+          child: Column(
             children: [
+              // 1. 顶部推荐卡片 (固定高度或比例)
               RecommendDart(),
-              SizedBox(height: 10),
-              FirstRow(),
-              SizedBox(height: 10),
-              SecondRow(),
-              SizedBox(height: 10),
-              Container(height: 100, color: Colors.red, child: Text("游戏入口")),
+              SizedBox(height: 16),
+
+              // 2. 第一行板块 (自适应高度)
+              Expanded(flex: 3, child: FirstRow()),
+              SizedBox(height: 16),
+
+              // 3. 第二行板块 (自适应高度)
+              Expanded(flex: 2, child: SecondRow()),
+              SizedBox(height: 16),
+
+              // 4. 底部游戏入口 (固定高度)
+              Container(
+                height: 80,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  color: Colors.redAccent,
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                alignment: Alignment.center,
+                child: Text(
+                  "游戏入口",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
             ],
           ),
-        ],
+        ),
       ),
     );
   }

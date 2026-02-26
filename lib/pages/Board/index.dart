@@ -3,6 +3,8 @@ import '../../api/action_service.dart';
 import '../../api/coin_service.dart';
 import '../../viewmodels/action_model.dart';
 import '../../components/common/charge_button.dart';
+import '../../components/board/action_header.dart';
+import '../../components/board/info_row.dart';
 import '../Reward/index.dart';
 
 class BoardPage extends StatefulWidget {
@@ -110,21 +112,8 @@ class _BoardPageState extends State<BoardPage> {
         ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
     final boardIdFromRoute = routeArgs?['boardId'];
 
-    // 如果还没加载过且有路由参数，可以触发重载（这里简化，假设initState已处理或通过key更新）
-
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(_currentAction?.title ?? "养生动作"),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.refresh),
-            onPressed: _switchAction,
-            tooltip: "换一换",
-          ),
-        ],
-      ),
-      body: _buildBody(),
-    );
+    // 隐藏 AppBar，改用 SliverAppBar 实现沉浸式效果
+    return Scaffold(backgroundColor: Colors.white, body: _buildBody());
   }
 
   Widget _buildBody() {
@@ -151,87 +140,145 @@ class _BoardPageState extends State<BoardPage> {
       return Center(child: Text("该板块暂无推荐动作"));
     }
 
-    return SingleChildScrollView(
-      padding: EdgeInsets.all(20),
+    // 使用 Column + Expanded 实现无滚动固定布局
+    return SafeArea(
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          // 演示区域 (GIF/视频占位)
+          // 1. 顶部 Header (固定高度占比，例如 35%)
           Container(
-            height: 200,
-            width: double.infinity,
-            decoration: BoxDecoration(
-              color: Colors.grey[200],
-              borderRadius: BorderRadius.circular(16),
-            ),
-            child: Center(
-              child: Icon(
-                Icons.play_circle_outline,
-                size: 64,
-                color: Colors.grey,
-              ),
-              // TODO: 实际接入 Image.asset(_currentAction!.assets.gif)
-            ),
-          ),
-          SizedBox(height: 24),
-
-          // 动作说明
-          Text(
-            _currentAction!.title,
-            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-            textAlign: TextAlign.center,
-          ),
-          SizedBox(height: 12),
-          Text(
-            _currentAction!.description,
-            style: TextStyle(fontSize: 16, color: Colors.grey[700]),
-            textAlign: TextAlign.center,
-          ),
-          SizedBox(height: 8),
-          Chip(
-            label: Text("耗时: ${_currentAction!.duration}"),
-            backgroundColor: Colors.blue[50],
-          ),
-
-          SizedBox(height: 40),
-
-          // 长按交互区域
-          ChargeButton(
-            rewardCoins: _currentAction!.rewards.coins,
-            isHardAction: _currentAction!.difficulty >= 4, // 难度大于等于4算高难度
-            onCompleted: () async {
-              // 1. 增加金币
-              final earned = _currentAction!.rewards.coins;
-              await _coinService.addCoins(earned);
-
-              // 2. 跳转到奖励页
-              if (mounted) {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => RewardPage(earnedCoins: earned),
+            height: MediaQuery.of(context).size.height * 0.35,
+            child: Stack(
+              children: [
+                ActionHeader(action: _currentAction!),
+                // 返回按钮
+                Positioned(
+                  top: 10,
+                  left: 10,
+                  child: _buildCircleBtn(
+                    icon: Icons.arrow_back,
+                    onTap: () => Navigator.pop(context),
                   ),
-                );
-              }
-            },
+                ),
+                // 刷新按钮
+                Positioned(
+                  top: 10,
+                  right: 10,
+                  child: _buildCircleBtn(
+                    icon: Icons.refresh,
+                    onTap: _switchAction,
+                  ),
+                ),
+              ],
+            ),
           ),
 
-          // 高难度动作切换按钮
-          if (_currentAction != null && _currentAction!.difficulty < 4)
-            Padding(
-              padding: const EdgeInsets.only(top: 20.0),
-              child: ElevatedButton.icon(
-                onPressed: _switchToHardAction,
-                icon: Icon(Icons.fitness_center),
-                label: Text("来点猛的？"),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.redAccent,
-                  foregroundColor: Colors.white,
-                  padding: EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-                ),
+          // 2. 中间内容区 (自适应剩余空间)
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly, // 均匀分布
+                children: [
+                  // 信息栏
+                  InfoRow(action: _currentAction!),
+
+                  // 描述卡片 (限制最大高度，防止溢出)
+                  Flexible(
+                    child: Container(
+                      padding: EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                        color: Colors.blue[50],
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                      child: SingleChildScrollView(
+                        // 仅描述文字内部可滚动
+                        child: Text(
+                          _currentAction!.description,
+                          style: TextStyle(
+                            fontSize: 16,
+                            height: 1.5,
+                            color: Colors.blueGrey[900],
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    ),
+                  ),
+
+                  // 蓄力按钮区域
+                  Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      ChargeButton(
+                        rewardCoins: _currentAction!.rewards.coins,
+                        isHardAction: _currentAction!.difficulty >= 4,
+                        onCompleted: () async {
+                          final earned = _currentAction!.rewards.coins;
+                          await _coinService.addCoins(earned);
+                          if (mounted) {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    RewardPage(earnedCoins: earned),
+                              ),
+                            );
+                          }
+                        },
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 8.0),
+                        child: Text(
+                          _currentAction!.difficulty >= 4
+                              ? "挑战极限，赢取大奖！"
+                              : "长按 1.2s 完成打卡",
+                          style: TextStyle(
+                            color: Colors.grey[500],
+                            fontSize: 12,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+
+                  // 高难度切换按钮 (如果不需要显示，用 SizedBox 占位保持布局稳定，或者直接不显示)
+                  if (_currentAction != null && _currentAction!.difficulty < 4)
+                    Container(
+                      height: 50,
+                      child: ElevatedButton.icon(
+                        onPressed: _switchToHardAction,
+                        icon: Icon(Icons.local_fire_department, size: 20),
+                        label: Text("来点猛的？"),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.redAccent,
+                          foregroundColor: Colors.white,
+                          shape: StadiumBorder(),
+                          elevation: 2,
+                        ),
+                      ),
+                    )
+                  else
+                    SizedBox(height: 50), // 保持底部间距一致
+                ],
               ),
             ),
+          ),
+
+          SizedBox(height: 10), // 底部安全边距
         ],
+      ),
+    );
+  }
+
+  Widget _buildCircleBtn({
+    required IconData icon,
+    required VoidCallback onTap,
+  }) {
+    return Container(
+      decoration: BoxDecoration(color: Colors.black38, shape: BoxShape.circle),
+      child: IconButton(
+        icon: Icon(icon, color: Colors.white),
+        onPressed: onTap,
       ),
     );
   }
