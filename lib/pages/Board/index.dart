@@ -292,9 +292,11 @@ class _BoardPageState extends State<BoardPage> {
 
                       SizedBox(height: 20),
 
-                      // 高难度切换按钮
+                      // 高难度切换按钮 (仅当不是 late_sleep 或 neck_pain 时显示)
                       if (_currentAction != null &&
-                          _currentAction!.difficulty < 4)
+                          _currentAction!.difficulty < 4 &&
+                          _currentAction!.board != 'late_sleep' &&
+                          _currentAction!.board != 'neck_pain')
                         Container(
                           height: 44,
                           child: TextButton.icon(

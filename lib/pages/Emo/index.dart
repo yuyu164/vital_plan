@@ -12,7 +12,7 @@ class _EmoPageState extends State<EmoPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text("emo")),
-      body: Center(child: Text("emo页面")),
+      body: Center(child: Text("emo页面(待施工)")),
     );
   }
 }

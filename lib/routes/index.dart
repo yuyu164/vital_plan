@@ -1,4 +1,3 @@
-//¹ÜÀíÂ·ÓÉ
 import 'package:flutter/material.dart';
 import 'package:vital_plan/pages/Board/index.dart';
 import 'package:vital_plan/pages/Emo/index.dart';
@@ -8,29 +7,29 @@ import 'package:vital_plan/pages/Health_recommend/index.dart';
 // import 'package:vital_plan/pages/Late_sleep/index.dart';
 import 'package:vital_plan/pages/Login/index.dart';
 import 'package:vital_plan/pages/Main/index.dart';
+import 'package:vital_plan/pages/auth_wrapper.dart';
 // import 'package:vital_plan/pages/Neck_pain/index.dart';
 // import 'package:vital_plan/pages/Normal/index.dart';
 
 Widget getRootWidget() {
-  return MaterialApp(
-    //ÃüÃûÂ·ÓÉ
-    initialRoute: "/",
-    routes: getRootRoutes(),
-  );
+  return MaterialApp(initialRoute: "/", routes: getRootRoutes());
 }
 
-//·µ»ØÂ·ÓÉÅäÖÃ
+// å·²ç§»è‡³é¡¶éƒ¨ï¼Œä¸æ‰€æœ‰ import æŒ‡ä»¤ä¿æŒä¸€è‡´
+
+// è·¯ç”±é…ç½®è¡¨
 Map<String, Widget Function(BuildContext)> getRootRoutes() {
   return {
-    "/": (context) => MainPage(), //Ö÷Ò³Â·ÓÉ
-    "/login": (context) => LoginPage(), //µÇÂ¼Â·ÓÉ
-    "/game": (context) => GamePage(), //ÓÎÏ·Â·ÓÉ
-    "/health_recommend": (context) => HealthRecommendPage(), //ÑøÉúÍÆ¼öÂ·ÓÉ
-    // "/normal": (context) => NormalPage(), //ÎŞÒì³£
-    // "/late_sleep": (context) => LateSleepPage(), //Ë¯µÃÍí
-    // "/eye_strain": (context) => EyeStrainPage(), //ÊÓÆ£ÀÍ
-    // "/neck_pain": (context) => NeckPainPage(), //¾±×µÄÑÊÜ
-    "/board": (context) => BoardPage(), //¿´°åÂ·ÓÉ
-    "/emo": (context) => EmoPage(), //emoÁË
+    "/": (context) => const AuthWrapper(), // å°†æ ¹è·¯ç”±æŒ‡å‘ AuthWrapperï¼Œç”±å®ƒå†³å®šæ˜¾ç¤ºä»€ä¹ˆ
+    "/main": (context) => MainPage(), // æ˜¾å¼å®šä¹‰ MainPage è·¯ç”±
+    "/login": (context) => LoginPage(), // ç™»å½•è·¯ç”±
+    "/game": (context) => GamePage(), // æ¸¸æˆè·¯ç”±
+    "/health_recommend": (context) => HealthRecommendPage(), // å¥åº·æ¨èè·¯ç”±
+    // "/normal": (context) => NormalPage(), // æ— å¼‚å¸¸
+    // "/late_sleep": (context) => LateSleepPage(), // ç¡å¾—æ™š
+    // "/eye_strain": (context) => EyeStrainPage(), // è§†ç–²åŠ³
+    // "/neck_pain": (context) => NeckPainPage(), // é¢ˆæ¤éš¾å—
+    "/board": (context) => BoardPage(), // çœ‹æ¿è·¯ç”±
+    "/emo": (context) => EmoPage(), // emoè·¯ç”±
   };
 }

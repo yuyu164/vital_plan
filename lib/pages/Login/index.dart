@@ -64,8 +64,10 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    // 使用 LayoutBuilder 获取屏幕高度，防止在小屏幕上溢出
     return Scaffold(
       backgroundColor: Colors.white,
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
@@ -75,103 +77,126 @@ class _LoginPageState extends State<LoginPage> {
         ),
       ),
       body: SafeArea(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.all(30.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(height: 20),
-              // Logo
-              Center(
-                child: Column(
-                  children: [
-                    Icon(Icons.spa, size: 80, color: Colors.blueAccent),
-                    SizedBox(height: 16),
-                    Text(
-                      "元气计划",
-                      style: TextStyle(
-                        fontSize: 28,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.blueGrey[900],
-                      ),
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            return SingleChildScrollView(
+              physics: ClampingScrollPhysics(), // 允许在内容过多时滚动
+              child: ConstrainedBox(
+                constraints: BoxConstraints(minHeight: constraints.maxHeight),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 30.0),
+                  child: IntrinsicHeight(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(height: 20),
+                        // Logo
+                        Center(
+                          child: Column(
+                            children: [
+                              Icon(
+                                Icons.spa,
+                                size: 80,
+                                color: Colors.blueAccent,
+                              ),
+                              SizedBox(height: 16),
+                              Text(
+                                "元气计划",
+                                style: TextStyle(
+                                  fontSize: 28,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.blueGrey[900],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(height: 40),
+
+                        // 欢迎语
+                        Text(
+                          "欢迎回来",
+                          style: TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        Text(
+                          "请登录您的账号",
+                          style: TextStyle(fontSize: 16, color: Colors.grey),
+                        ),
+                        SizedBox(height: 30),
+
+                        // 手机号输入
+                        TextField(
+                          controller: _phoneController,
+                          keyboardType: TextInputType.phone,
+                          decoration: InputDecoration(
+                            labelText: "手机号",
+                            prefixIcon: Icon(Icons.phone_android),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 20),
+
+                        // 密码输入
+                        TextField(
+                          controller: _passwordController,
+                          obscureText: true,
+                          decoration: InputDecoration(
+                            labelText: "密码",
+                            prefixIcon: Icon(Icons.lock),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            helperText: "6-16位字母、数字、_@*",
+                          ),
+                        ),
+
+                        Spacer(), // 自动占据剩余空间
+
+                        SizedBox(height: 20),
+
+                        // 登录按钮
+                        SizedBox(
+                          width: double.infinity,
+                          height: 50,
+                          child: ElevatedButton(
+                            onPressed: _isLoading ? null : _handleLogin,
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.blueAccent,
+                              foregroundColor: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                            ),
+                            child: _isLoading
+                                ? CircularProgressIndicator(color: Colors.white)
+                                : Text("登录", style: TextStyle(fontSize: 18)),
+                          ),
+                        ),
+
+                        SizedBox(height: 20),
+                        // 注册跳转
+                        Center(
+                          child: TextButton(
+                            onPressed: _goToRegister,
+                            child: Text(
+                              "没有账号？去注册",
+                              style: TextStyle(color: Colors.blueAccent),
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 20), // 底部留白
+                      ],
                     ),
-                  ],
-                ),
-              ),
-              SizedBox(height: 40),
-
-              // 欢迎语
-              Text(
-                "欢迎回来",
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-              ),
-              Text(
-                "请登录您的账号",
-                style: TextStyle(fontSize: 16, color: Colors.grey),
-              ),
-              SizedBox(height: 30),
-
-              // 手机号输入
-              TextField(
-                controller: _phoneController,
-                keyboardType: TextInputType.phone,
-                decoration: InputDecoration(
-                  labelText: "手机号",
-                  prefixIcon: Icon(Icons.phone_android),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
                   ),
                 ),
               ),
-              SizedBox(height: 20),
-
-              // 密码输入
-              TextField(
-                controller: _passwordController,
-                obscureText: true,
-                decoration: InputDecoration(
-                  labelText: "密码",
-                  prefixIcon: Icon(Icons.lock),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  helperText: "6-16位字母、数字、_@*",
-                ),
-              ),
-              SizedBox(height: 40),
-
-              // 登录按钮
-              SizedBox(
-                width: double.infinity,
-                height: 50,
-                child: ElevatedButton(
-                  onPressed: _isLoading ? null : _handleLogin,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blueAccent,
-                    foregroundColor: Colors.white,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                  ),
-                  child: _isLoading
-                      ? CircularProgressIndicator(color: Colors.white)
-                      : Text("登录", style: TextStyle(fontSize: 18)),
-                ),
-              ),
-
-              SizedBox(height: 20),
-              // 注册跳转
-              Center(
-                child: TextButton(
-                  onPressed: _goToRegister,
-                  child: Text(
-                    "没有账号？去注册",
-                    style: TextStyle(color: Colors.blueAccent),
-                  ),
-                ),
-              ),
-            ],
-          ),
+            );
+          },
         ),
       ),
     );
