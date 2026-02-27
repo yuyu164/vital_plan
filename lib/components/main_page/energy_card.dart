@@ -50,12 +50,11 @@ class EnergyCard extends StatelessWidget {
                 // 背景装饰圆
                 Positioned(
                   right: -20,
-                  bottom: -20,
+                  bottom: -25, // 调整位置，更隐蔽
                   child: IgnorePointer(
-                    // 忽略点击，避免遮挡
                     child: Container(
-                      width: 100,
-                      height: 100,
+                      width: 90, // 减小尺寸 100 -> 90
+                      height: 90,
                       decoration: BoxDecoration(
                         color: color.withOpacity(0.1),
                         shape: BoxShape.circle,
@@ -65,42 +64,60 @@ class EnergyCard extends StatelessWidget {
                 ),
 
                 Padding(
-                  padding: const EdgeInsets.all(14.0),
+                  padding: const EdgeInsets.all(12.0), // 减小内边距 14 -> 12
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       // 图标容器
                       Container(
-                        padding: EdgeInsets.all(10),
+                        padding: EdgeInsets.all(8), // 减小 padding 10 -> 8
                         decoration: BoxDecoration(
                           color: color.withOpacity(0.15),
                           borderRadius: BorderRadius.circular(16),
                         ),
-                        child: Icon(icon, color: color, size: 24),
+                        child: Icon(
+                          icon,
+                          color: color,
+                          size: 22,
+                        ), // 减小图标 24 -> 22
                       ),
 
-                      Spacer(), // 使用 Spacer 自动填充中间空间
+                      // 使用 Expanded 替代 Spacer，确保空间分配更合理
+                      Expanded(child: SizedBox()),
+
                       // 文字信息
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            title,
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black87,
+                          FittedBox(
+                            // 自动缩放标题
+                            fit: BoxFit.scaleDown,
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              title,
+                              style: TextStyle(
+                                fontSize: 15, // 减小字号 16 -> 15
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black87,
+                                height: 1.2, // 显式设置行高
+                              ),
                             ),
                           ),
-                          SizedBox(height: 2), // 减小间距 4 -> 2
-                          Text(
-                            subtitle,
-                            style: TextStyle(
-                              fontSize: 12,
-                              color: Colors.grey[600],
+                          SizedBox(height: 2),
+                          FittedBox(
+                            // 自动缩放副标题
+                            fit: BoxFit.scaleDown,
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              subtitle,
+                              style: TextStyle(
+                                fontSize: 11, // 减小字号 12 -> 11
+                                color: Colors.grey[600],
+                                height: 1.2, // 显式设置行高
+                              ),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
                             ),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
                           ),
                         ],
                       ),

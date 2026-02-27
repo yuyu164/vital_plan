@@ -7,23 +7,23 @@ class FirstRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 170, // 增加高度 160 -> 170
+      height: 145, // 调整高度 130 -> 145
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Expanded(
-            child: EnergyCard(
-              title: "日常",
-              subtitle: "保持活力",
-              icon: Icons.wb_sunny_rounded,
-              color: Colors.orange,
-              onTap: () => Navigator.pushNamed(
-                context,
-                "/board",
-                arguments: {'boardId': 'normal'},
-              ),
-            ),
-          ),
+          // Expanded(
+          //   child: EnergyCard(
+          //     title: "日常",
+          //     subtitle: "保持活力",
+          //     icon: Icons.wb_sunny_rounded,
+          //     color: Colors.orange,
+          //     onTap: () => Navigator.pushNamed(
+          //       context,
+          //       "/board",
+          //       arguments: {'boardId': 'normal'},
+          //     ),
+          //   ),
+          // ),
           SizedBox(width: 12),
           Expanded(
             child: EnergyCard(

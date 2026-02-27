@@ -1,40 +1,33 @@
 import 'package:flutter/material.dart';
-import '../main_page/energy_card.dart';
+import 'package:vital_plan/components/main_page/energy_card.dart';
 
-class SecondRow extends StatelessWidget {
-  const SecondRow({Key? key}) : super(key: key);
+class SecondRow extends StatefulWidget {
+  SecondRow({Key? key}) : super(key: key);
 
+  @override
+  _SecondRowState createState() => _SecondRowState();
+}
+
+class _SecondRowState extends State<SecondRow> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 170, // 增加高度 160 -> 170
+      width: MediaQuery.of(context).size.width * 0.7,
+      height: 145, // 调整高度 130 -> 145
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Expanded(
-            flex: 5, // 调整比例
             child: EnergyCard(
-              title: "颈椎",
-              subtitle: "拒绝僵硬",
-              icon: Icons.accessibility_new_rounded,
-              color: Colors.green,
+              title: "日常",
+              subtitle: "保持活力",
+              icon: Icons.wb_sunny_rounded,
+              color: Colors.orange,
               onTap: () => Navigator.pushNamed(
                 context,
                 "/board",
-                arguments: {'boardId': 'neck_pain'},
+                arguments: {'boardId': 'normal'},
               ),
-              isLarge: true, // 可用于样式区分
-            ),
-          ),
-          SizedBox(width: 12),
-          Expanded(
-            flex: 5,
-            child: EnergyCard(
-              title: "EMO",
-              subtitle: "心灵按摩",
-              icon: Icons.mood_bad_rounded,
-              color: Colors.pinkAccent,
-              onTap: () => Navigator.pushNamed(context, "/emo"),
             ),
           ),
         ],

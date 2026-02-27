@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:vital_plan/api/auth_service.dart';
+import 'package:vital_plan/components/mianPageWidget/second_row.dart';
 import 'package:vital_plan/pages/Login/index.dart';
 import 'package:vital_plan/components/mianPageWidget/first_row.dart';
 import 'package:vital_plan/components/mianPageWidget/recommend_card.dart';
-import 'package:vital_plan/components/mianPageWidget/second_row.dart';
+import 'package:vital_plan/components/mianPageWidget/third_row.dart';
 import 'package:vital_plan/components/common/coin_badge.dart';
 import 'package:vital_plan/components/main_page/main_page_background.dart';
 
@@ -106,15 +107,19 @@ class _MainPageState extends State<MainPage> {
               children: [
                 // 1. 顶部推荐卡片 (固定高度或比例)
                 RecommendDart(),
-                SizedBox(height: 16),
+                SizedBox(height: 10),
 
                 // 2. 第一行板块 (自适应高度)
-                Expanded(flex: 3, child: FirstRow()),
-                SizedBox(height: 16),
+                Expanded(flex: 2, child: FirstRow()),
+                SizedBox(height: 10),
 
-                // 3. 第二行板块 (自适应高度)
+                //2.第二行板块（自适应高度）
                 Expanded(flex: 2, child: SecondRow()),
-                SizedBox(height: 16),
+                SizedBox(height: 10),
+
+                // 3. 第三行板块 (自适应高度)
+                Expanded(flex: 2, child: ThirdRow()),
+                SizedBox(height: 10),
 
                 // 4. 底部游戏入口 (固定高度)
                 Container(

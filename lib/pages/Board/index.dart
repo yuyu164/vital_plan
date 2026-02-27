@@ -145,15 +145,13 @@ class _BoardPageState extends State<BoardPage> {
     // 获取当前板块主题
     final theme = ThemeHelper.getTheme(_currentAction!.board);
 
-    // 使用 Stack 实现 Header 与 内容的重叠效果
-    return Stack(
+    // 使用 Column + Transform.translate 实现稳定的覆盖效果
+    return Column(
       children: [
         // 1. 顶部 Header (固定高度)
-        Positioned(
-          top: 0,
-          left: 0,
-          right: 0,
-          height: MediaQuery.of(context).size.height * 0.45, // 增加高度以便重叠
+        Container(
+          height: 320, // 固定高度
+          width: double.infinity,
           child: Stack(
             children: [
               ActionHeader(action: _currentAction!),
@@ -179,152 +177,156 @@ class _BoardPageState extends State<BoardPage> {
           ),
         ),
 
-        // 2. 底部白色容器 (向上位移覆盖)
-        Positioned(
-          top: MediaQuery.of(context).size.height * 0.35, // 从 35% 处开始覆盖
-          left: 0,
-          right: 0,
-          bottom: 0,
-          child: Container(
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(30),
-                topRight: Radius.circular(30),
-              ),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black12,
-                  blurRadius: 20,
-                  offset: Offset(0, -5),
+        // 2. 底部白色容器 (使用 Expanded 填满剩余空间，并通过 Transform 向上移动)
+        Expanded(
+          child: Transform.translate(
+            offset: Offset(0, -30), // 向上移动 30px 实现覆盖
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(30),
+                  topRight: Radius.circular(30),
                 ),
-              ],
-            ),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 24.0,
-                vertical: 30,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black12,
+                    blurRadius: 20,
+                    offset: Offset(0, -5),
+                  ),
+                ],
               ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  // 信息胶囊行
-                  VitalityCapsule(action: _currentAction!),
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(
+                  24,
+                  30,
+                  24,
+                  0,
+                ), // 底部 padding 去掉，避免 extra space
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    // 信息胶囊行
+                    VitalityCapsule(action: _currentAction!),
 
-                  // 描述卡片 (带装饰)
-                  Expanded(
-                    child: Center(
-                      child: Container(
-                        width: double.infinity,
-                        margin: EdgeInsets.symmetric(vertical: 20),
-                        padding: EdgeInsets.all(24),
-                        decoration: BoxDecoration(
-                          color: theme.background, // 主题背景色
-                          borderRadius: BorderRadius.circular(20),
-                          border: Border.all(color: theme.cardBg, width: 2),
-                        ),
-                        child: Stack(
-                          children: [
-                            // 装饰性引号
-                            Positioned(
-                              top: -10,
-                              left: -10,
-                              child: Icon(
-                                Icons.format_quote,
-                                color: theme.decorationColor,
-                                size: 40,
-                              ),
-                            ),
-                            Center(
-                              child: SingleChildScrollView(
-                                child: Text(
-                                  _currentAction!.description,
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    height: 1.8, // 增加行高
-                                    color: Colors.black87,
-                                    letterSpacing: 0.5,
-                                  ),
-                                  textAlign: TextAlign.center,
+                    // 描述卡片 (带装饰)
+                    Expanded(
+                      child: Center(
+                        child: Container(
+                          width: double.infinity,
+                          margin: EdgeInsets.symmetric(vertical: 20),
+                          padding: EdgeInsets.all(24),
+                          decoration: BoxDecoration(
+                            color: theme.background, // 主题背景色
+                            borderRadius: BorderRadius.circular(20),
+                            border: Border.all(color: theme.cardBg, width: 2),
+                          ),
+                          child: Stack(
+                            children: [
+                              // 装饰性引号
+                              Positioned(
+                                top: -10,
+                                left: -10,
+                                child: Icon(
+                                  Icons.format_quote,
+                                  color: theme.decorationColor,
+                                  size: 40,
                                 ),
                               ),
-                            ),
-                          ],
+                              Center(
+                                child: SingleChildScrollView(
+                                  child: Text(
+                                    _currentAction!.description,
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      height: 1.8, // 增加行高
+                                      color: Colors.black87,
+                                      letterSpacing: 0.5,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
-                  ),
 
-                  // 底部操作区
-                  Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      ChargeButton(
-                        rewardCoins: _currentAction!.rewards.coins,
-                        isHardAction: _currentAction!.difficulty >= 4,
-                        onCompleted: () async {
-                          final earned = _currentAction!.rewards.coins;
-                          await _coinService.addCoins(earned);
-                          if (mounted) {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    RewardPage(earnedCoins: earned),
-                              ),
-                            );
-                          }
-                        },
-                      ),
-
-                      Padding(
-                        padding: const EdgeInsets.only(top: 12.0),
-                        child: Text(
-                          _currentAction!.difficulty >= 4
-                              ? "挑战极限，赢取大奖！"
-                              : "长按 1.2s 完成打卡",
-                          style: TextStyle(
-                            color: Colors.grey[500],
-                            fontSize: 12,
+                    // 底部操作区
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 20.0), // 底部留白
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          ChargeButton(
+                            rewardCoins: _currentAction!.rewards.coins,
+                            isHardAction: _currentAction!.difficulty >= 4,
+                            onCompleted: () async {
+                              final earned = _currentAction!.rewards.coins;
+                              await _coinService.addCoins(earned);
+                              if (mounted) {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        RewardPage(earnedCoins: earned),
+                                  ),
+                                );
+                              }
+                            },
                           ),
-                        ),
-                      ),
 
-                      SizedBox(height: 20),
-
-                      // 高难度切换按钮 (仅当不是 late_sleep 或 neck_pain 时显示)
-                      if (_currentAction != null &&
-                          _currentAction!.difficulty < 4 &&
-                          _currentAction!.board != 'late_sleep' &&
-                          _currentAction!.board != 'neck_pain')
-                        Container(
-                          height: 44,
-                          child: TextButton.icon(
-                            onPressed: _switchToHardAction,
-                            icon: Icon(
-                              Icons.local_fire_department,
-                              color: Colors.redAccent,
-                              size: 18,
-                            ),
-                            label: Text(
-                              "来点猛的？",
+                          Padding(
+                            padding: const EdgeInsets.only(top: 12.0),
+                            child: Text(
+                              _currentAction!.difficulty >= 4
+                                  ? "挑战极限，赢取大奖！"
+                                  : "长按 1.2s 完成打卡",
                               style: TextStyle(
-                                color: Colors.redAccent,
-                                fontWeight: FontWeight.bold,
+                                color: Colors.grey[500],
+                                fontSize: 12,
                               ),
                             ),
-                            style: TextButton.styleFrom(
-                              backgroundColor: Colors.red[50],
-                              padding: EdgeInsets.symmetric(horizontal: 24),
-                              shape: StadiumBorder(),
-                            ),
                           ),
-                        )
-                      else
-                        SizedBox(height: 44),
-                    ],
-                  ),
-                ],
+
+                          SizedBox(height: 20),
+
+                          // 高难度切换按钮 (仅当不是 late_sleep 或 neck_pain 时显示)
+                          if (_currentAction != null &&
+                              _currentAction!.difficulty < 4 &&
+                              _currentAction!.board != 'late_sleep' &&
+                              _currentAction!.board != 'neck_pain')
+                            Container(
+                              height: 44,
+                              child: TextButton.icon(
+                                onPressed: _switchToHardAction,
+                                icon: Icon(
+                                  Icons.local_fire_department,
+                                  color: Colors.redAccent,
+                                  size: 18,
+                                ),
+                                label: Text(
+                                  "来点猛的？",
+                                  style: TextStyle(
+                                    color: Colors.redAccent,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                style: TextButton.styleFrom(
+                                  backgroundColor: Colors.red[50],
+                                  padding: EdgeInsets.symmetric(horizontal: 24),
+                                  shape: StadiumBorder(),
+                                ),
+                              ),
+                            )
+                          else
+                            SizedBox(height: 44),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
