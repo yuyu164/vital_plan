@@ -3,16 +3,16 @@ import 'package:provider/provider.dart';
 import '../../api/auth_service.dart';
 import '../../utils/toast_utils.dart';
 import '../Main/index.dart';
-import '../Register/index.dart'; // 引入注册页
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({Key? key}) : super(key: key);
+class RegisterPage extends StatefulWidget {
+  const RegisterPage({Key? key}) : super(key: key);
 
   @override
-  _LoginPageState createState() => _LoginPageState();
+  _RegisterPageState createState() => _RegisterPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _RegisterPageState extends State<RegisterPage> {
+  final _nicknameController = TextEditingController();
   final _phoneController = TextEditingController();
   final _passwordController = TextEditingController();
   bool _isLoading = false;
@@ -20,10 +20,19 @@ class _LoginPageState extends State<LoginPage> {
   final _phoneRegex = RegExp(r'^1[3-9]\d{9}$');
   final _passwordRegex = RegExp(r'^[a-zA-Z0-9_@*]{6,16}$');
 
-  void _handleLogin() async {
+  void _handleRegister() async {
+    final nickname = _nicknameController.text.trim();
     final phone = _phoneController.text.trim();
     final password = _passwordController.text.trim();
 
+    if (nickname.isEmpty) {
+      ToastUtils.show("请输入昵称（目前不支持修改昵称）", isError: true);
+      return;
+    }
+    if (nickname.length > 16) {
+      ToastUtils.show("昵称最多16个字符", isError: true);
+      return;
+    }
     if (!_phoneRegex.hasMatch(phone)) {
       ToastUtils.show("手机号格式错误，请输入11位手机号", isError: true);
       return;
@@ -38,28 +47,18 @@ class _LoginPageState extends State<LoginPage> {
     });
 
     final authService = Provider.of<AuthService>(context, listen: false);
-    final success = await authService.login(phone, password);
+    await authService.register(phone, password, nickname);
+    ToastUtils.show("注册成功，欢迎加入元气计划！");
 
-    if (success) {
-      ToastUtils.show("登录成功");
-      // 登录成功后进入主页（清除路由栈）
-      Navigator.of(context).pushAndRemoveUntil(
-        MaterialPageRoute(builder: (context) => MainPage()),
-        (route) => false,
-      );
-    } else {
-      ToastUtils.show("账号或密码错误", isError: true);
-    }
+    // 注册成功后直接进入主页（清除路由栈）
+    Navigator.of(context).pushAndRemoveUntil(
+      MaterialPageRoute(builder: (context) => MainPage()),
+      (route) => false,
+    );
 
     setState(() {
       _isLoading = false;
     });
-  }
-
-  void _goToRegister() {
-    Navigator.of(
-      context,
-    ).push(MaterialPageRoute(builder: (context) => RegisterPage()));
   }
 
   @override
@@ -70,8 +69,8 @@ class _LoginPageState extends State<LoginPage> {
         backgroundColor: Colors.white,
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.close, color: Colors.black),
-          onPressed: () => Navigator.maybePop(context),
+          icon: Icon(Icons.arrow_back, color: Colors.black),
+          onPressed: () => Navigator.pop(context),
         ),
       ),
       body: SafeArea(
@@ -80,38 +79,33 @@ class _LoginPageState extends State<LoginPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(height: 20),
-              // Logo
-              Center(
-                child: Column(
-                  children: [
-                    Icon(Icons.spa, size: 80, color: Colors.blueAccent),
-                    SizedBox(height: 16),
-                    Text(
-                      "元气计划",
-                      style: TextStyle(
-                        fontSize: 28,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.blueGrey[900],
-                      ),
-                    ),
-                  ],
-                ),
+              Text(
+                "注册账号",
+                style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+              ),
+              SizedBox(height: 8),
+              Text(
+                "完善信息，开启元气之旅",
+                style: TextStyle(fontSize: 16, color: Colors.grey),
               ),
               SizedBox(height: 40),
 
-              // 欢迎语
-              Text(
-                "欢迎回来",
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              // 昵称
+              TextField(
+                controller: _nicknameController,
+                maxLength: 16,
+                decoration: InputDecoration(
+                  labelText: "昵称",
+                  prefixIcon: Icon(Icons.person_outline),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  counterText: "",
+                ),
               ),
-              Text(
-                "请登录您的账号",
-                style: TextStyle(fontSize: 16, color: Colors.grey),
-              ),
-              SizedBox(height: 30),
+              SizedBox(height: 20),
 
-              // 手机号输入
+              // 手机号
               TextField(
                 controller: _phoneController,
                 keyboardType: TextInputType.phone,
@@ -125,13 +119,13 @@ class _LoginPageState extends State<LoginPage> {
               ),
               SizedBox(height: 20),
 
-              // 密码输入
+              // 密码
               TextField(
                 controller: _passwordController,
                 obscureText: true,
                 decoration: InputDecoration(
-                  labelText: "密码",
-                  prefixIcon: Icon(Icons.lock),
+                  labelText: "设置密码",
+                  prefixIcon: Icon(Icons.lock_outline),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
                   ),
@@ -140,12 +134,12 @@ class _LoginPageState extends State<LoginPage> {
               ),
               SizedBox(height: 40),
 
-              // 登录按钮
+              // 注册按钮
               SizedBox(
                 width: double.infinity,
                 height: 50,
                 child: ElevatedButton(
-                  onPressed: _isLoading ? null : _handleLogin,
+                  onPressed: _isLoading ? null : _handleRegister,
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.blueAccent,
                     foregroundColor: Colors.white,
@@ -155,17 +149,17 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   child: _isLoading
                       ? CircularProgressIndicator(color: Colors.white)
-                      : Text("登录", style: TextStyle(fontSize: 18)),
+                      : Text("立即注册", style: TextStyle(fontSize: 18)),
                 ),
               ),
 
               SizedBox(height: 20),
-              // 注册跳转
+              // 返回登录
               Center(
                 child: TextButton(
-                  onPressed: _goToRegister,
+                  onPressed: () => Navigator.pop(context),
                   child: Text(
-                    "没有账号？去注册",
+                    "已有账号？去登录",
                     style: TextStyle(color: Colors.blueAccent),
                   ),
                 ),

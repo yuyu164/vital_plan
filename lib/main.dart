@@ -1,7 +1,13 @@
-import 'package:flutter/cupertino.dart';
-import 'package:vital_plan/routes/index.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:vital_plan/api/auth_service.dart';
+import 'package:vital_plan/app.dart';
 
 void main(List<String> args) {
-  // runApp(app)
-  runApp(getRootWidget());
+  runApp(
+    MultiProvider(
+      providers: [ChangeNotifierProvider(create: (_) => AuthService())],
+      child: const VitalPlanApp(),
+    ),
+  );
 }
