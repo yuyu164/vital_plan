@@ -18,7 +18,7 @@ class _LoginPageState extends State<LoginPage> {
   bool _isLoading = false;
 
   final _phoneRegex = RegExp(r'^1[3-9]\d{9}$');
-  final _passwordRegex = RegExp(r'^[a-zA-Z0-9_@*]{6,16}$');
+  final _passwordRegex = RegExp(r'^[a-zA-Z0-9]{6,16}$');
 
   void _handleLogin() async {
     final phone = _phoneController.text.trim();
@@ -132,7 +132,7 @@ class _LoginPageState extends State<LoginPage> {
                           controller: _phoneController,
                           keyboardType: TextInputType.phone,
                           decoration: InputDecoration(
-                            labelText: "手机号",
+                            labelText: "请输入手机号",
                             prefixIcon: Icon(Icons.phone_android),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(12),
@@ -146,12 +146,12 @@ class _LoginPageState extends State<LoginPage> {
                           controller: _passwordController,
                           obscureText: true,
                           decoration: InputDecoration(
-                            labelText: "密码",
+                            labelText: "请输入由字母和数字组成的6-16位密码",
                             prefixIcon: Icon(Icons.lock),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(12),
                             ),
-                            helperText: "6-16位字母、数字、_@*",
+                            // helperText: "6-16位字母、数字",
                           ),
                         ),
 
