@@ -65,6 +65,9 @@ flutter:
     - lib/assets/images/user_default_avator/
     - lib/assets/images/coin/honest_graphic-money-bag-9772256_1920.png
     - lib/assets/data/actions.json
+    - lib/assets/images/xuewei/normal/baihui_fengfu.png
+    - lib/assets/images/xuewei/neck/fengfu_jianjing.png
+    - lib/assets/images/xuewei/eye/tongziliao.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

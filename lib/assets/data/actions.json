@@ -8,8 +8,8 @@
     "difficulty": 1,
     "interactionType": "TIMER",
     "assets": {
-      "gif": "assets/images/actions/normal_01.gif",
-      "poster": "assets/images/actions/normal_01_poster.png"
+      "gif": "assets/images/xuewei/normal/baihui_fengfu.png",
+      "poster": "assets/images/xuewei/normal/baihui_fengfu.png"
     },
     "rewards": {
       "coins": 30,
@@ -246,8 +246,8 @@
     "difficulty": 3,
     "interactionType": "TIMER",
     "assets": {
-      "gif": "assets/images/actions/neck_07.gif",
-      "poster": "assets/images/actions/neck_07_poster.png"
+      "gif": "assets/images/xuewei/neck/fengfu_jianjing.png",
+      "poster": "assets/images/xuewei/neck/fengfu_jianjing.png"
     },
     "rewards": {
       "coins": 60,
@@ -263,8 +263,8 @@
     "difficulty": 1,
     "interactionType": "TIMER",
     "assets": {
-      "gif": "assets/images/actions/eye_01.gif",
-      "poster": "assets/images/actions/eye_01_poster.png"
+      "gif": "assets/images/xuewei/eye/tongziliao.png",
+      "poster": "assets/images/xuewei/eye/tongziliao.png"
     },
     "rewards": {
       "coins": 30,

@@ -150,7 +150,7 @@ class _BoardPageState extends State<BoardPage> {
       children: [
         // 1. 顶部 Header (固定高度)
         Container(
-          height: 320, // 固定高度
+          height: MediaQuery.of(context).size.height * 0.4, // 调整为屏幕高度的 55%
           width: double.infinity,
           child: Stack(
             children: [
@@ -180,13 +180,13 @@ class _BoardPageState extends State<BoardPage> {
         // 2. 底部白色容器 (使用 Expanded 填满剩余空间，并通过 Transform 向上移动)
         Expanded(
           child: Transform.translate(
-            offset: Offset(0, -30), // 向上移动 30px 实现覆盖
+            offset: Offset(0, -20), // 向上移动 30px 实现覆盖
             child: Container(
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(30),
-                  topRight: Radius.circular(30),
+                  topLeft: Radius.circular(20),
+                  topRight: Radius.circular(20),
                 ),
                 boxShadow: [
                   BoxShadow(
@@ -254,76 +254,73 @@ class _BoardPageState extends State<BoardPage> {
                     ),
 
                     // 底部操作区
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 20.0), // 底部留白
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          ChargeButton(
-                            rewardCoins: _currentAction!.rewards.coins,
-                            isHardAction: _currentAction!.difficulty >= 4,
-                            onCompleted: () async {
-                              final earned = _currentAction!.rewards.coins;
-                              await _coinService.addCoins(earned);
-                              if (mounted) {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) =>
-                                        RewardPage(earnedCoins: earned),
-                                  ),
-                                );
-                              }
-                            },
-                          ),
+                    Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        ChargeButton(
+                          rewardCoins: _currentAction!.rewards.coins,
+                          isHardAction: _currentAction!.difficulty >= 4,
+                          onCompleted: () async {
+                            final earned = _currentAction!.rewards.coins;
+                            await _coinService.addCoins(earned);
+                            if (mounted) {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      RewardPage(earnedCoins: earned),
+                                ),
+                              );
+                            }
+                          },
+                        ),
 
-                          Padding(
-                            padding: const EdgeInsets.only(top: 12.0),
-                            child: Text(
-                              _currentAction!.difficulty >= 4
-                                  ? "挑战极限，赢取大奖！"
-                                  : "长按 1.2s 完成打卡",
-                              style: TextStyle(
-                                color: Colors.grey[500],
-                                fontSize: 12,
-                              ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 12.0),
+                          child: Text(
+                            _currentAction!.difficulty >= 4
+                                ? "挑战极限，赢取大奖！"
+                                : "长按 1.2s 完成打卡",
+                            style: TextStyle(
+                              color: Colors.grey[500],
+                              fontSize: 12,
                             ),
                           ),
+                        ),
 
-                          SizedBox(height: 20),
+                        SizedBox(height: 20),
 
-                          // 高难度切换按钮 (仅当不是 late_sleep 或 neck_pain 时显示)
-                          if (_currentAction != null &&
-                              _currentAction!.difficulty < 4 &&
-                              _currentAction!.board != 'late_sleep' &&
-                              _currentAction!.board != 'neck_pain')
-                            Container(
-                              height: 44,
-                              child: TextButton.icon(
-                                onPressed: _switchToHardAction,
-                                icon: Icon(
-                                  Icons.local_fire_department,
+                        // 高难度切换按钮 (仅当不是 late_sleep 或 neck_pain 时显示)
+                        if (_currentAction != null &&
+                            _currentAction!.difficulty < 4 &&
+                            _currentAction!.board != 'late_sleep' &&
+                            _currentAction!.board != 'neck_pain')
+                          Container(
+                            height: 44,
+                            child: TextButton.icon(
+                              onPressed: _switchToHardAction,
+                              icon: Icon(
+                                Icons.local_fire_department,
+                                color: Colors.redAccent,
+                                size: 18,
+                              ),
+                              label: Text(
+                                "来点猛的？",
+                                style: TextStyle(
                                   color: Colors.redAccent,
-                                  size: 18,
-                                ),
-                                label: Text(
-                                  "来点猛的？",
-                                  style: TextStyle(
-                                    color: Colors.redAccent,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                style: TextButton.styleFrom(
-                                  backgroundColor: Colors.red[50],
-                                  padding: EdgeInsets.symmetric(horizontal: 24),
-                                  shape: StadiumBorder(),
+                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
-                            )
-                          else
-                            SizedBox(height: 44),
-                        ],
-                      ),
+                              style: TextButton.styleFrom(
+                                backgroundColor: Colors.red[50],
+                                padding: EdgeInsets.symmetric(horizontal: 24),
+                                shape: StadiumBorder(),
+                              ),
+                            ),
+                          )
+                        else
+                          SizedBox(height: 44),
+                      ],
                     ),
                   ],
                 ),

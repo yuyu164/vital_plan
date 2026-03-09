@@ -9,7 +9,7 @@ class ActionHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 240,
+      // height: 240, // 移除固定高度，让父容器决定
       width: double.infinity,
       child: Stack(
         fit: StackFit.expand,
@@ -85,15 +85,18 @@ class ActionHeader extends StatelessWidget {
           // 尝试加载本地图片（GIF或Poster）
           if (action.assets.gif.isNotEmpty)
             Image.asset(
-              action.assets.gif,
+              "lib/${action.assets.gif}",
               fit: BoxFit.cover,
               errorBuilder: (context, error, stackTrace) {
-                // 如果GIF加载失败，尝试加载Poster
+                print("Error loading GIF: $error");
                 if (action.assets.poster.isNotEmpty) {
                   return Image.asset(
-                    action.assets.poster,
+                    "lib/${action.assets.poster}",
                     fit: BoxFit.cover,
-                    errorBuilder: (c, e, s) => _buildPlaceholder(),
+                    errorBuilder: (c, e, s) {
+                      print("Error loading Poster: $e");
+                      return _buildPlaceholder();
+                    },
                   );
                 }
                 return _buildPlaceholder();
