@@ -180,7 +180,7 @@ class _BoardPageState extends State<BoardPage> {
         // 2. 底部白色容器 (使用 Expanded 填满剩余空间，并通过 Transform 向上移动)
         Expanded(
           child: Transform.translate(
-            offset: Offset(0, -20), // 向上移动 30px 实现覆盖
+            offset: Offset(0, -20), // 向上移动 20px 实现覆盖
             child: Container(
               decoration: BoxDecoration(
                 color: Colors.white,

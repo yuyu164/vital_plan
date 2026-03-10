@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:vital_plan/api/auth_service.dart';
 import 'package:vital_plan/components/mianPageWidget/second_row.dart';
+import 'package:vital_plan/pages/Game/index.dart';
 import 'package:vital_plan/pages/Login/index.dart';
 import 'package:vital_plan/components/mianPageWidget/first_row.dart';
 import 'package:vital_plan/components/mianPageWidget/recommend_card.dart';
@@ -148,7 +149,9 @@ class _MainPageState extends State<MainPage> {
                     child: InkWell(
                       borderRadius: BorderRadius.circular(24),
                       onTap: () {
-                        // TODO: 跳转游戏页
+                        Navigator.of(context).push(
+                          MaterialPageRoute(builder: (context) => GamePage()),
+                        );
                       },
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 24.0),
