@@ -69,7 +69,7 @@ flutter:
     - lib/assets/images/xuewei/normal/baihui_fengfu.png
     - lib/assets/images/xuewei/neck/fengfu_jianjing.png
     - lib/assets/images/xuewei/eye/tongziliao.png
-    - lib/assets/game/game.html
+    - lib/assets/game/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

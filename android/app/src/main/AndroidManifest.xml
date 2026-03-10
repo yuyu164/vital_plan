@@ -4,9 +4,9 @@
     <application
         android:label="vital_plan"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/ic_launcher"
         android:usesCleartextTraffic="true"
-        android:hardwareAccelerated="true" <!-- 开启硬件加速，提升游戏性能 -->
+        android:hardwareAccelerated="true">
         <activity
             android:name=".MainActivity"
             android:exported="true"

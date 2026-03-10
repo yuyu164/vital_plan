@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/foundation.dart'
+    show kIsWeb, defaultTargetPlatform, TargetPlatform;
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
 class GamePage extends StatefulWidget {
@@ -12,7 +14,8 @@ class GamePage extends StatefulWidget {
 class _GamePageState extends State<GamePage> {
   InAppWebViewController? _webViewController;
   bool _isLoading = true;
-  // InAppLocalhostServer? _server;
+  InAppLocalhostServer? _server;
+  late final String _initialUrl;
   @override
   void initState() {
     super.initState();
@@ -21,9 +24,16 @@ class _GamePageState extends State<GamePage> {
       SystemUiMode.immersiveSticky, // 沉浸式全屏，点击屏幕不会弹出状态栏
       overlays: [],
     );
-    // 使用本地 http 服务承载游戏资源，避免 file:// 加载 WASM 的兼容问题
-    // _server = InAppLocalhostServer(documentRoot: 'lib/assets/game');
-    // _server!.start();
+    // 平台自适配：
+    // - Android/iOS：使用本地 http 服务承载游戏资源，避免 file:// + WASM 的兼容问题
+    // - Web：走 Flutter Web 的 assets 路径
+    if (!kIsWeb && defaultTargetPlatform == TargetPlatform.android) {
+      _server = InAppLocalhostServer(documentRoot: 'lib/assets/game');
+      _server!.start();
+      _initialUrl = 'http://localhost:8080/game.html';
+    } else {
+      _initialUrl = 'assets/lib/assets/game/game.html';
+    }
   }
 
   @override
@@ -31,7 +41,7 @@ class _GamePageState extends State<GamePage> {
     // 退出游戏时恢复系统UI和屏幕方向
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-    // _server?.close();
+    _server?.close();
     super.dispose();
   }
 
@@ -43,17 +53,15 @@ class _GamePageState extends State<GamePage> {
         children: [
           // 核心：加载本地Godot H5游戏
           InAppWebView(
-            initialFile: 'lib/assets/game/game.html', // 本地H5入口文件（已确认实际文件名）
-            // // 通过本地 http 服务访问，兼容 WASM、相对路径、MIME 等问题
-            // initialUrlRequest:
-            //     URLRequest(url: WebUri('http://localhost:8080/game.html')),
+            // Android 通过本地 http 服务访问；Web 使用 assets 路径
+            initialUrlRequest: URLRequest(url: WebUri(_initialUrl)),
             initialOptions: InAppWebViewGroupOptions(
               crossPlatform: InAppWebViewOptions(
                 // 关键配置：禁用缩放、启用JS、支持WASM
                 javaScriptEnabled: true,
                 useShouldOverrideUrlLoading: true,
                 mediaPlaybackRequiresUserGesture: false,
-                allowFileAccessFromFileURLs: true, // 允许本地文件访问
+                allowFileAccessFromFileURLs: true,
                 allowUniversalAccessFromFileURLs: true,
                 cacheEnabled: true,
                 clearCache: false,
