@@ -246,8 +246,8 @@
     "difficulty": 3,
     "interactionType": "TIMER",
     "assets": {
-      "gif": "assets/images/xuewei/neck/fengfu_jianjing.png",
-      "poster": "assets/images/xuewei/neck/fengfu_jianjing.png"
+      "gif": "assets/images/xuewei/neck/fengchi_jiaojing.png",
+      "poster": "assets/images/xuewei/neck/fengchi_jianjing.png"
     },
     "rewards": {
       "coins": 60,
