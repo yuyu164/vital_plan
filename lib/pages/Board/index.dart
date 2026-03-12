@@ -177,155 +177,153 @@ class _BoardPageState extends State<BoardPage> {
           ),
         ),
 
-        // 2. 底部白色容器 (使用 Expanded 填满剩余空间，并通过 Transform 向上移动)
+        // 2. 底部白色容器 (使用 Expanded 填满剩余空间，通过 Stack 的 top -20 覆盖顶部而不留底部空隙)
         Expanded(
-          child: Transform.translate(
-            offset: Offset(0, -20), // 向上移动 20px 实现覆盖
-            child: Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(20),
-                  topRight: Radius.circular(20),
-                ),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black12,
-                    blurRadius: 20,
-                    offset: Offset(0, -5),
+          child: Stack(
+            children: [
+              Positioned.fill(
+                top: -20,
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(20),
+                      topRight: Radius.circular(20),
+                    ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black12,
+                        blurRadius: 20,
+                        offset: Offset(0, -5),
+                      ),
+                    ],
                   ),
-                ],
-              ),
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(
-                  24,
-                  30,
-                  24,
-                  0,
-                ), // 底部 padding 去掉，避免 extra space
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    // 信息胶囊行
-                    VitalityCapsule(action: _currentAction!),
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(
+                      24,
+                      30,
+                      24,
+                      0,
+                    ), // 底部 padding 去掉，避免 extra space
+                    child: SingleChildScrollView(
+                      padding: EdgeInsets.only(bottom: 16),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          // 信息胶囊行
+                          VitalityCapsule(action: _currentAction!),
 
-                    // 描述卡片 (带装饰)
-                    Expanded(
-                      child: Center(
-                        child: Container(
-                          width: double.infinity,
-                          margin: EdgeInsets.symmetric(vertical: 20),
-                          padding: EdgeInsets.all(24),
-                          decoration: BoxDecoration(
-                            color: theme.background, // 主题背景色
-                            borderRadius: BorderRadius.circular(20),
-                            border: Border.all(color: theme.cardBg, width: 2),
-                          ),
-                          child: Stack(
-                            children: [
-                              // 装饰性引号
-                              Positioned(
-                                top: -10,
-                                left: -10,
-                                child: Icon(
-                                  Icons.format_quote,
-                                  color: theme.decorationColor,
-                                  size: 40,
+                          // 描述卡片 (带装饰)
+                          SizedBox(height: 12),
+                          ConstrainedBox(
+                            constraints: BoxConstraints(
+                              minHeight: 100,
+                              maxHeight: 200,
+                            ),
+                            child: Container(
+                              width: double.infinity,
+                              padding: EdgeInsets.all(24),
+                              decoration: BoxDecoration(
+                                color: theme.background,
+                                borderRadius: BorderRadius.circular(20),
+                                border: Border.all(
+                                  color: theme.cardBg,
+                                  width: 2,
                                 ),
                               ),
-                              Center(
-                                child: SingleChildScrollView(
-                                  child: Text(
-                                    _currentAction!.description,
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      height: 1.8, // 增加行高
-                                      color: Colors.black87,
-                                      letterSpacing: 0.5,
-                                    ),
-                                    textAlign: TextAlign.center,
+                              child: SingleChildScrollView(
+                                child: Text(
+                                  _currentAction!.description,
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    height: 1.8,
+                                    color: Colors.black87,
+                                    letterSpacing: 0.5,
+                                  ),
+                                  textAlign: TextAlign.left,
+                                ),
+                              ),
+                            ),
+                          ),
+
+                          // 底部操作区
+                          Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              ChargeButton(
+                                rewardCoins: _currentAction!.rewards.coins,
+                                isHardAction: _currentAction!.difficulty >= 4,
+                                onCompleted: () async {
+                                  final earned = _currentAction!.rewards.coins;
+                                  await _coinService.addCoins(earned);
+                                  if (mounted) {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            RewardPage(earnedCoins: earned),
+                                      ),
+                                    );
+                                  }
+                                },
+                              ),
+
+                              Padding(
+                                padding: const EdgeInsets.only(top: 12.0),
+                                child: Text(
+                                  _currentAction!.difficulty >= 4
+                                      ? "挑战极限，赢取大奖！"
+                                      : "长按 1.2s 完成打卡",
+                                  style: TextStyle(
+                                    color: Colors.grey[500],
+                                    fontSize: 12,
                                   ),
                                 ),
                               ),
+
+                              SizedBox(height: 8),
+
+                              // 高难度切换按钮 (仅当不是 late_sleep 或 neck_pain 时显示)
+                              if (_currentAction != null &&
+                                  _currentAction!.difficulty < 4 &&
+                                  _currentAction!.board != 'late_sleep' &&
+                                  _currentAction!.board != 'neck_pain')
+                                Container(
+                                  height: 44,
+                                  child: TextButton.icon(
+                                    onPressed: _switchToHardAction,
+                                    icon: Icon(
+                                      Icons.local_fire_department,
+                                      color: Colors.redAccent,
+                                      size: 18,
+                                    ),
+                                    label: Text(
+                                      "来点猛的？",
+                                      style: TextStyle(
+                                        color: Colors.redAccent,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    style: TextButton.styleFrom(
+                                      backgroundColor: Colors.red[50],
+                                      padding: EdgeInsets.symmetric(
+                                        horizontal: 24,
+                                      ),
+                                      shape: StadiumBorder(),
+                                    ),
+                                  ),
+                                )
+                              else
+                                SizedBox(height: 44),
                             ],
                           ),
-                        ),
+                        ],
                       ),
                     ),
-
-                    // 底部操作区
-                    Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        ChargeButton(
-                          rewardCoins: _currentAction!.rewards.coins,
-                          isHardAction: _currentAction!.difficulty >= 4,
-                          onCompleted: () async {
-                            final earned = _currentAction!.rewards.coins;
-                            await _coinService.addCoins(earned);
-                            if (mounted) {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      RewardPage(earnedCoins: earned),
-                                ),
-                              );
-                            }
-                          },
-                        ),
-
-                        Padding(
-                          padding: const EdgeInsets.only(top: 12.0),
-                          child: Text(
-                            _currentAction!.difficulty >= 4
-                                ? "挑战极限，赢取大奖！"
-                                : "长按 1.2s 完成打卡",
-                            style: TextStyle(
-                              color: Colors.grey[500],
-                              fontSize: 12,
-                            ),
-                          ),
-                        ),
-
-                        SizedBox(height: 20),
-
-                        // 高难度切换按钮 (仅当不是 late_sleep 或 neck_pain 时显示)
-                        if (_currentAction != null &&
-                            _currentAction!.difficulty < 4 &&
-                            _currentAction!.board != 'late_sleep' &&
-                            _currentAction!.board != 'neck_pain')
-                          Container(
-                            height: 44,
-                            child: TextButton.icon(
-                              onPressed: _switchToHardAction,
-                              icon: Icon(
-                                Icons.local_fire_department,
-                                color: Colors.redAccent,
-                                size: 18,
-                              ),
-                              label: Text(
-                                "来点猛的？",
-                                style: TextStyle(
-                                  color: Colors.redAccent,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              style: TextButton.styleFrom(
-                                backgroundColor: Colors.red[50],
-                                padding: EdgeInsets.symmetric(horizontal: 24),
-                                shape: StadiumBorder(),
-                              ),
-                            ),
-                          )
-                        else
-                          SizedBox(height: 44),
-                      ],
-                    ),
-                  ],
+                  ),
                 ),
               ),
-            ),
+            ],
           ),
         ),
       ],

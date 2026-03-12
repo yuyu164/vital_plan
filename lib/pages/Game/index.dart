@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/foundation.dart'
     show kIsWeb, defaultTargetPlatform, TargetPlatform;
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+import 'package:vital_plan/api/coin_service.dart';
 
 class GamePage extends StatefulWidget {
   GamePage({Key? key}) : super(key: key);
@@ -76,6 +77,13 @@ class _GamePageState extends State<GamePage> {
             ),
             onWebViewCreated: (controller) {
               _webViewController = controller;
+              controller.addJavaScriptHandler(
+                handlerName: 'getCoins',
+                callback: (args) async {
+                  final coins = await CoinService().getCoins();
+                  return coins;
+                },
+              );
             },
             onLoadStart: (controller, url) {
               setState(() => _isLoading = true);
@@ -90,6 +98,21 @@ class _GamePageState extends State<GamePage> {
                 document.body.style.padding = '0';
                 document.querySelector('canvas').style.width = '100%';
                 document.querySelector('canvas').style.height = '100%';
+                
+                (function() {
+                  const origFetch = window.fetch;
+                  window.fetch = async function(input, init) {
+                    try {
+                      const url = typeof input === 'string' ? input : (input && input.url ? input.url : '');
+                      if (url && /data\\.json(\\?.*)?\$/.test(url)) {
+                        const coins = await window.flutter_inappwebview.callHandler('getCoins');
+                        const body = JSON.stringify([{ coin: Number(coins) || 0 }]);
+                        return new Response(body, { status: 200, headers: { 'Content-Type': 'application/json' } });
+                      }
+                    } catch (e) {}
+                    return origFetch.apply(this, arguments);
+                  }
+                })();
               """,
               );
             },

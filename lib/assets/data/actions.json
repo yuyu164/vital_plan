@@ -25,8 +25,8 @@
     "difficulty": 1,
     "interactionType": "TIMER",
     "assets": {
-      "gif": "assets/images/actions/normal_02.gif",
-      "poster": "assets/images/actions/normal_02_poster.png"
+      "gif": "assets/images/eye/yuantiao.png",
+      "poster": "assets/images/eye/yuantiao.png"
     },
     "rewards": {
       "coins": 30,
@@ -42,8 +42,8 @@
     "difficulty": 1,
     "interactionType": "TIMER",
     "assets": {
-      "gif": "assets/images/actions/normal_03.gif",
-      "poster": "assets/images/actions/normal_03_poster.png"
+      "gif": "assets/images/neck/jianbangsongli.png",
+      "poster": "assets/images/neck/jianbangsongli.png"
     },
     "rewards": {
       "coins": 30,
@@ -59,8 +59,8 @@
     "difficulty": 1,
     "interactionType": "TIMER",
     "assets": {
-      "gif": "assets/images/actions/normal_04.gif",
-      "poster": "assets/images/actions/normal_04_poster.png"
+      "gif": "assets/images/late_sleep/shenlanyao.png",
+      "poster": "assets/images/late_sleep/shenlanyao.png"
     },
     "rewards": {
       "coins": 20,
@@ -76,8 +76,8 @@
     "difficulty": 1,
     "interactionType": "TIMER",
     "assets": {
-      "gif": "assets/images/actions/normal_05.gif",
-      "poster": "assets/images/actions/normal_05_poster.png"
+      "gif": "assets/images/normal/woquan.png",
+      "poster": "assets/images/normal/woquan.png"
     },
     "rewards": {
       "coins": 20,
@@ -93,8 +93,8 @@
     "difficulty": 1,
     "interactionType": "TIMER",
     "assets": {
-      "gif": "assets/images/actions/normal_06.gif",
-      "poster": "assets/images/actions/normal_06_poster.png"
+      "gif": "assets/images/normal/dianjiao.png",
+      "poster": "assets/images/normal/dianjiao.png"
     },
     "rewards": {
       "coins": 20,
@@ -144,8 +144,8 @@
     "difficulty": 1,
     "interactionType": "TIMER",
     "assets": {
-      "gif": "assets/images/actions/neck_01.gif",
-      "poster": "assets/images/actions/neck_01_poster.png"
+      "gif": "assets/images/neck/jianbangsongli.png",
+      "poster": "assets/images/neck/jianbangsongli.png"
     },
     "rewards": {
       "coins": 30,
@@ -161,8 +161,8 @@
     "difficulty": 2,
     "interactionType": "TIMER",
     "assets": {
-      "gif": "assets/images/actions/neck_02.gif",
-      "poster": "assets/images/actions/neck_02_poster.png"
+      "gif": "assets/images/neck/look_up.png",
+      "poster": "assets/images/neck/look_up.png"
     },
     "rewards": {
       "coins": 40,
@@ -178,8 +178,8 @@
     "difficulty": 2,
     "interactionType": "TIMER",
     "assets": {
-      "gif": "assets/images/actions/neck_03.gif",
-      "poster": "assets/images/actions/neck_03_poster.png"
+      "gif": "assets/images/neck/look_left.png",
+      "poster": "assets/images/neck/look_left.png"
     },
     "rewards": {
       "coins": 40,
@@ -195,8 +195,8 @@
     "difficulty": 2,
     "interactionType": "TIMER",
     "assets": {
-      "gif": "assets/images/actions/neck_04.gif",
-      "poster": "assets/images/actions/neck_04_poster.png"
+      "gif": "assets/images/neck/baotou.png",
+      "poster": "assets/images/neck/baotou.png"
     },
     "rewards": {
       "coins": 50,
@@ -207,13 +207,13 @@
     "id": "act_neck_05",
     "board": "neck_pain",
     "title": "侧颈拉伸",
-    "description": "左手放头顶轻拉向左侧，保持15秒，换边。肩膀放松、不要耸肩",
+    "description": "左手放后脑勺将头轻拉向左侧，保持15秒，换边。肩膀放松、不要耸肩",
     "duration": "1m",
     "difficulty": 2,
     "interactionType": "TIMER",
     "assets": {
-      "gif": "assets/images/actions/neck_05.gif",
-      "poster": "assets/images/actions/neck_05_poster.png"
+      "gif": "assets/images/neck/zhuantou.png",
+      "poster": "assets/images/neck/zhuantou.png"
     },
     "rewards": {
       "coins": 40,
@@ -224,13 +224,13 @@
     "id": "act_neck_06",
     "board": "neck_pain",
     "title": "抬头纠正坐姿",
-    "description": "抬头看远处30秒，下巴微收，别探脖子。坐姿：屁股坐满椅子，腰挺直，别窝着",
+    "description": "抬头看远处30秒，下巴微收，别探脖子。坐姿：屁股坐满椅子，腰挺直",
     "duration": "1m",
     "difficulty": 1,
     "interactionType": "TIMER",
     "assets": {
-      "gif": "assets/images/actions/neck_06.gif",
-      "poster": "assets/images/actions/neck_06_poster.png"
+      "gif": "assets/images/neck/look_forward.png",
+      "poster": "assets/images/neck/look_forward.png"
     },
     "rewards": {
       "coins": 30,
@@ -280,8 +280,8 @@
     "difficulty": 1,
     "interactionType": "TIMER",
     "assets": {
-      "gif": "assets/images/actions/eye_02.gif",
-      "poster": "assets/images/actions/eye_02_poster.png"
+      "gif": "assets/images/eye/wenfuyanjing.png",
+      "poster": "assets/images/eye/wenfuyanjing.png"
     },
     "rewards": {
       "coins": 40,
@@ -297,8 +297,8 @@
     "difficulty": 1,
     "interactionType": "TIMER",
     "assets": {
-      "gif": "assets/images/actions/eye_03.gif",
-      "poster": "assets/images/actions/eye_03_poster.png"
+      "gif": "assets/images/eye/look_outside_the_window.png",
+      "poster": "assets/images/eye/look_outside_the_window.png"
     },
     "rewards": {
       "coins": 40,
@@ -309,13 +309,13 @@
     "id": "act_eye_04",
     "board": "eye_strain",
     "title": "穴位轻按",
-    "description": "食指轻按睛明穴（眼头）、四白穴（眼下）、太阳穴，每个穴位按10秒，力度轻柔",
+    "description": "食指轻按睛明穴（眼头）、四白穴（眼下），每个穴位按10秒，力度轻柔",
     "duration": "1m",
     "difficulty": 2,
     "interactionType": "TIMER",
     "assets": {
-      "gif": "assets/images/actions/eye_04.gif",
-      "poster": "assets/images/actions/eye_04_poster.png"
+      "gif": "assets/images/xuewei/eye/jingming_sibai.png",
+      "poster": "assets/images/xuewei/eye/jingming_sibai.png"
     },
     "rewards": {
       "coins": 50,
@@ -348,8 +348,8 @@
     "difficulty": 2,
     "interactionType": "TIMER",
     "assets": {
-      "gif": "assets/images/actions/late_01.gif",
-      "poster": "assets/images/actions/late_01_poster.png"
+      "gif": "assets/images/late_sleep/jianbangsongli.png",
+      "poster": "assets/images/late_sleep/jianbangsongli.png"
     },
     "rewards": {
       "coins": 40,
@@ -365,8 +365,8 @@
     "difficulty": 1,
     "interactionType": "TIMER",
     "assets": {
-      "gif": "assets/images/actions/late_02.gif",
-      "poster": "assets/images/actions/late_02_poster.png"
+      "gif": "assets/images/late_sleep/shenlanyao.png",
+      "poster": "assets/images/late_sleep/shenlanyao.png"
     },
     "rewards": {
       "coins": 30,
@@ -382,8 +382,8 @@
     "difficulty": 1,
     "interactionType": "CHECKBOX",
     "assets": {
-      "gif": "assets/images/actions/late_03.gif",
-      "poster": "assets/images/actions/late_03_poster.png"
+      "gif": "assets/images/late_sleep/drink_water.png",
+      "poster": "assets/images/late_sleep/drink_water.png"
     },
     "rewards": {
       "coins": 20,
@@ -399,8 +399,8 @@
     "difficulty": 2,
     "interactionType": "TIMER",
     "assets": {
-      "gif": "assets/images/actions/late_04.gif",
-      "poster": "assets/images/actions/late_04_poster.png"
+      "gif": "assets/images/late_sleep/shenhuxi.png",
+      "poster": "assets/images/late_sleep/shenhuxi.png"
     },
     "rewards": {
       "coins": 40,
@@ -416,8 +416,8 @@
     "difficulty": 3,
     "interactionType": "TIMER",
     "assets": {
-      "gif": "assets/images/actions/late_05.gif",
-      "poster": "assets/images/actions/late_05_poster.png"
+      "gif": "assets/images/xuewei/zhongfeng_ququan.png",
+      "poster": "assets/images/xuewei/zhongfeng_ququan.png"
     },
     "rewards": {
       "coins": 50,
