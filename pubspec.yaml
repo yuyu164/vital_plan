@@ -40,6 +40,7 @@ dependencies:
   provider: ^6.1.5+1
   table_calendar: ^3.0.8  # 建议使用最新稳定版
   intl: ^0.18.1  # 处理日期格式化（table_calendar 依赖）
+  dio: ^5.9.2
 
 
 dev_dependencies:
