@@ -34,68 +34,68 @@ class _MainPageState extends State<MainPage> {
               fontWeight: FontWeight.bold,
             ),
           ),
-          leading: Consumer<AuthService>(
-            builder: (context, auth, _) {
-              return GestureDetector(
-                onTap: () {
-                  if (auth.isLoggedIn) {
-                    // 已登录：显示注销弹窗
-                    showDialog(
-                      context: context,
-                      builder: (context) => AlertDialog(
-                        title: Text("提示"),
-                        content: Text("是否注销登录？"),
-                        actions: [
-                          TextButton(
-                            onPressed: () => Navigator.pop(context),
-                            child: Text(
-                              "取消",
-                              style: TextStyle(color: Colors.grey),
-                            ),
-                          ),
-                          TextButton(
-                            onPressed: () {
-                              auth.logout();
-                              Navigator.pop(context); // 关闭弹窗
-                            },
-                            child: Text(
-                              "确定",
-                              style: TextStyle(color: Colors.redAccent),
-                            ),
-                          ),
-                        ],
-                      ),
-                    );
-                  } else {
-                    // 未登录：跳转登录页
-                    Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => LoginPage()),
-                    );
-                  }
-                },
-                child: Row(
-                  children: [
-                    SizedBox(width: 8),
-                    CircleAvatar(
-                      radius: 14,
-                      backgroundImage: AssetImage(
-                        "lib/assets/images/user_default_avator/wingtilldie-avatar-1577909_1920.png",
-                      ),
-                    ),
-                    SizedBox(width: 4),
-                    Expanded(
-                      child: Text(
-                        auth.nickname,
-                        style: TextStyle(fontSize: 12, color: Colors.black87),
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ),
-                  ],
-                ),
-              );
-            },
-          ),
-          leadingWidth: 100, // 增加 leading 宽度以容纳头像和昵称
+          // leading: Consumer<AuthService>(
+          //   builder: (context, auth, _) {
+          //     return GestureDetector(
+          //       onTap: () {
+          //         if (auth.isLoggedIn) {
+          //           // 已登录：显示注销弹窗
+          //           showDialog(
+          //             context: context,
+          //             builder: (context) => AlertDialog(
+          //               title: Text("提示"),
+          //               content: Text("是否注销登录？"),
+          //               actions: [
+          //                 TextButton(
+          //                   onPressed: () => Navigator.pop(context),
+          //                   child: Text(
+          //                     "取消",
+          //                     style: TextStyle(color: Colors.grey),
+          //                   ),
+          //                 ),
+          //                 TextButton(
+          //                   onPressed: () {
+          //                     auth.logout();
+          //                     Navigator.pop(context); // 关闭弹窗
+          //                   },
+          //                   child: Text(
+          //                     "确定",
+          //                     style: TextStyle(color: Colors.redAccent),
+          //                   ),
+          //                 ),
+          //               ],
+          //             ),
+          //           );
+          //         } else {
+          //           // 未登录：跳转登录页
+          //           Navigator.of(context).push(
+          //             MaterialPageRoute(builder: (context) => LoginPage()),
+          //           );
+          //         }
+          //       },
+          //       child: Row(
+          //         children: [
+          //           SizedBox(width: 8),
+          //           CircleAvatar(
+          //             radius: 14,
+          //             backgroundImage: AssetImage(
+          //               "lib/assets/images/user_default_avator/wingtilldie-avatar-1577909_1920.png",
+          //             ),
+          //           ),
+          //           SizedBox(width: 4),
+          //           Expanded(
+          //             child: Text(
+          //               auth.nickname,
+          //               style: TextStyle(fontSize: 12, color: Colors.black87),
+          //               overflow: TextOverflow.ellipsis,
+          //             ),
+          //           ),
+          //         ],
+          //       ),
+          //     );
+          //   },
+          // ),
+          // leadingWidth: 100, // 增加 leading 宽度以容纳头像和昵称
           actions: [CoinBadge()],
         ),
         body: SafeArea(
@@ -163,7 +163,7 @@ class _MainPageState extends State<MainPage> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  "🎮 探索元气世界(待施工)",
+                                  "🎮 探索元气世界",
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontSize: 18,

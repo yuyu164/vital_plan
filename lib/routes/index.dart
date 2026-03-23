@@ -3,7 +3,8 @@ import 'package:vital_plan/pages/Board/index.dart';
 import 'package:vital_plan/pages/Emo/index.dart';
 // import 'package:vital_plan/pages/Eye_strain/index.dart';
 import 'package:vital_plan/pages/Game/index.dart';
-import 'package:vital_plan/pages/Health_recommend/index.dart';
+// import 'package:vital_plan/pages/Health_recommend/index.dart';
+import 'package:vital_plan/pages/Check_in_chat/index.dart';
 // import 'package:vital_plan/pages/Late_sleep/index.dart';
 import 'package:vital_plan/pages/Login/index.dart';
 import 'package:vital_plan/pages/Main/index.dart';
@@ -24,7 +25,8 @@ Map<String, Widget Function(BuildContext)> getRootRoutes() {
     "/main": (context) => MainPage(), // 显式定义 MainPage 路由
     "/login": (context) => LoginPage(), // 登录路由
     "/game": (context) => GamePage(), // 游戏路由
-    "/health_recommend": (context) => HealthRecommendPage(), // 健康推荐路由
+    // "/health_recommend": (context) => HealthRecommendPage(), // 健康推荐路由
+    "/check_in_chat": (context) => CheckInChatPage(),
     // "/normal": (context) => NormalPage(), // 无异常
     // "/late_sleep": (context) => LateSleepPage(), // 睡得晚
     // "/eye_strain": (context) => EyeStrainPage(), // 视疲劳

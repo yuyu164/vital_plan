@@ -16,7 +16,7 @@ class ThirdRow extends StatelessWidget {
             child: EnergyCard(
               title: "颈椎",
               subtitle: "拒绝僵硬",
-              icon: Icons.accessibility_new_rounded,
+              icon: Icons.airline_seat_recline_normal_rounded,
               color: Colors.green,
               onTap: () => Navigator.pushNamed(
                 context,
@@ -31,8 +31,8 @@ class ThirdRow extends StatelessWidget {
             flex: 5,
             child: EnergyCard(
               title: "EMO",
-              subtitle: "心灵按摩",
-              icon: Icons.mood_bad_rounded,
+              subtitle: "情绪修复",
+              icon: Icons.mood_rounded,
               color: Colors.pinkAccent,
               onTap: () => Navigator.pushNamed(context, "/emo"),
             ),

@@ -416,8 +416,8 @@
     "difficulty": 3,
     "interactionType": "TIMER",
     "assets": {
-      "gif": "assets/images/xuewei/zhongfeng_ququan.png",
-      "poster": "assets/images/xuewei/zhongfeng_ququan.png"
+      "gif": "assets/images/xuewei/sleep_late/zhongfeng_ququan.png",
+      "poster": "assets/images/xuewei/sleep_late/zhongfeng_ququan.png"
     },
     "rewards": {
       "coins": 50,

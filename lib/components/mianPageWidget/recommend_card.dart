@@ -16,7 +16,7 @@ class _RecommendDartState extends State<RecommendDart> {
       height: 140, // 增加高度以容纳更多内容
       child: GestureDetector(
         onTap: () {
-          // Navigator.pushNamed(context, "/healthRecommend"); // 暂时注释，等待路由实现
+          Navigator.pushNamed(context, "/check_in_chat");
         },
         child: ClipRRect(
           borderRadius: BorderRadius.circular(24),
