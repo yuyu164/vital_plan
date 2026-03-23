@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:vital_plan/components/board/info_row.dart';
 import '../../api/action_service.dart';
 import '../../api/coin_service.dart';
+import '../../api/check_in_service.dart'; // 引入打卡服务
 import '../../viewmodels/action_model.dart';
 import '../../components/common/charge_button.dart';
 import '../../components/board/action_header.dart';
@@ -256,6 +257,33 @@ class _BoardPageState extends State<BoardPage> {
                                 onCompleted: () async {
                                   final earned = _currentAction!.rewards.coins;
                                   await _coinService.addCoins(earned);
+
+                                  // 记录打卡状态
+                                  CheckInModule? module;
+                                  switch (_currentAction!.board) {
+                                    case 'normal':
+                                      module = CheckInModule.normal;
+                                      break;
+                                    case 'neck_pain':
+                                      module = CheckInModule.neck;
+                                      break;
+                                    case 'eye_strain':
+                                      module = CheckInModule.eye;
+                                      break;
+                                    case 'late_sleep':
+                                      module = CheckInModule.sleep;
+                                      break;
+                                    case 'emo':
+                                      module = CheckInModule.emo;
+                                      break;
+                                  }
+                                  if (module != null) {
+                                    await CheckInService.addCheckInRecord(
+                                      DateTime.now(),
+                                      module,
+                                    );
+                                  }
+
                                   if (mounted) {
                                     Navigator.push(
                                       context,
