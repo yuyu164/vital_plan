@@ -79,6 +79,7 @@ flutter:
     - lib/assets/images/neck/
     - lib/assets/images/normal/
     - lib/assets/images/late_sleep/
+    - lib/assets/images/acupoints/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

@@ -86,91 +86,152 @@ class _CalendarWidgetState extends State<CalendarWidget> {
     if (isSelected) {
       bgColor = Theme.of(context).primaryColor;
       textColor = Colors.white;
-      border = null; // 选中时不显示打卡边框
+      // 选中时如果有打卡记录，保留绿色边框；否则不显示边框
+      border = hasRecord
+          ? Border.all(color: Colors.green.shade400, width: 2.0)
+          : null;
     } else if (isToday) {
       if (!hasRecord) {
         bgColor = Colors.orangeAccent.withOpacity(0.2); // 没打卡时今天的背景色
+        border = Border.all(color: Colors.orange, width: 2); // 今天的橙色边框
+      } else {
+        // 今天已打卡：优先显示打卡的绿色边框（稍微加粗一点以示区别，或者保持一致）
+        border = Border.all(color: Colors.green.shade400, width: 2.0);
       }
-      border = Border.all(color: Colors.orange, width: 2); // 今天的橙色边框
       textColor = hasRecord ? Colors.green.shade800 : Colors.orange.shade800;
       fontWeight = FontWeight.bold;
     }
 
-    // 渲染日期数字的中心容器
-    Widget dayContainer = Container(
-      margin: const EdgeInsets.all(6.0),
+    // 将整个单元格包裹在一个方形容器中，而不是圆形的数字容器
+    // 这样外层就可以画一个整体的方形边框
+    Widget cellContent = Container(
+      margin: const EdgeInsets.all(4.0), // 调整整体边距
       decoration: BoxDecoration(
-        color: bgColor,
-        shape: BoxShape.circle,
-        border: border,
+        color: isSelected && !hasRecord
+            ? Theme.of(context).primaryColor
+            : Colors
+                  .transparent, // 只有没打卡且选中时才给整个背景上色（为了兼容原本的选中圆圈样式，这里先设透明，后面单独画圆圈）
+        border: hasRecord
+            ? Border.all(color: Colors.green.shade400, width: 2.0)
+            : (isToday && !hasRecord
+                  ? Border.all(color: Colors.orange, width: 2.0)
+                  : null), // 只要有打卡，整个格子加上绿色边框
+        borderRadius: BorderRadius.circular(8.0), // 稍微给点圆角，显得不那么生硬
       ),
-      alignment: Alignment.center,
-      child: Text(
-        '${date.day}',
-        style: TextStyle(color: textColor, fontWeight: fontWeight),
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          // 渲染日期数字的中心容器 (如果是选中状态或者是已打卡的背景色，在这里渲染)
+          Container(
+            margin: const EdgeInsets.all(4.0),
+            decoration: BoxDecoration(
+              color: isSelected ? Theme.of(context).primaryColor : bgColor,
+              shape: BoxShape.circle,
+            ),
+            alignment: Alignment.center,
+            child: Text(
+              '${date.day}',
+              style: TextStyle(color: textColor, fontWeight: fontWeight),
+            ),
+          ),
+
+          // 如果有打卡记录，在四个角渲染对应板块的图标
+          if (hasRecord) ..._buildIcons(modules),
+        ],
       ),
     );
 
-    // 如果没有打卡记录，直接返回日期容器
-    if (!hasRecord) {
-      return dayContainer;
-    }
+    return cellContent;
+  }
 
-    // 如果有打卡记录，在四个角渲染对应板块的图标
+  // 提取图标渲染逻辑
+  List<Widget> _buildIcons(List<CheckInModule> modules) {
     List<Widget> icons = [];
-    final positions = [
-      {'top': 2.0, 'left': 2.0},
-      {'top': 2.0, 'right': 2.0},
-      {'bottom': 2.0, 'left': 2.0},
-      {'bottom': 2.0, 'right': 2.0},
-    ];
+    final int count = modules.length;
 
-    for (int i = 0; i < modules.length && i < 4; i++) {
-      final module = modules[i];
-      IconData iconData;
-      Color iconColor;
-      switch (module) {
-        case CheckInModule.emo:
-          iconData = Icons.mood_rounded;
-          iconColor = Colors.pinkAccent;
-          break;
-        case CheckInModule.sleep:
-          iconData = Icons.nights_stay_rounded;
-          iconColor = Colors.indigo;
-          break;
-        case CheckInModule.eye:
-          iconData = Icons.remove_red_eye_rounded;
-          iconColor = Colors.teal;
-          break;
-        case CheckInModule.normal:
-          iconData = Icons.wb_sunny_rounded;
-          iconColor = Colors.orange;
-          break;
-        case CheckInModule.neck:
-          iconData = Icons.accessibility_new_rounded;
-          iconColor = Colors.green;
-          break;
-      }
+    // 如果模块数 <= 4，使用原四角布局
+    if (count <= 4) {
+      final positions = [
+        {'top': 2.0, 'left': 2.0},
+        {'top': 2.0, 'right': 2.0},
+        {'bottom': 2.0, 'left': 2.0},
+        {'bottom': 2.0, 'right': 2.0},
+      ];
 
-      final pos = positions[i];
-      icons.add(
-        Positioned(
-          top: pos['top'],
-          bottom: pos['bottom'],
-          left: pos['left'],
-          right: pos['right'],
-          child: Container(
-            decoration: const BoxDecoration(
-              color: Colors.white,
-              shape: BoxShape.circle,
+      for (int i = 0; i < count; i++) {
+        final module = modules[i];
+        final iconInfo = _getIconInfo(module);
+        final pos = positions[i];
+
+        icons.add(
+          Positioned(
+            top: pos['top'],
+            bottom: pos['bottom'],
+            left: pos['left'],
+            right: pos['right'],
+            child: Container(
+              decoration: const BoxDecoration(
+                color: Colors.white,
+                shape: BoxShape.circle,
+              ),
+              child: Icon(iconInfo.icon, size: 10, color: iconInfo.color),
             ),
-            child: Icon(iconData, size: 12, color: iconColor),
           ),
-        ),
-      );
+        );
+      }
+    }
+    // 如果集齐了5个模块，使用星轨环绕（正五边形分布）布局
+    else {
+      // 使用 Align 和 FractionalOffset 实现中心环绕效果
+      // (x, y) 的坐标系范围是 -1.0 到 1.0
+      final positions = [
+        {'x': 0.0, 'y': -0.95}, // 顶部正中
+        {'x': 0.85, 'y': -0.2}, // 右上
+        {'x': 0.6, 'y': 0.85}, // 右下
+        {'x': -0.6, 'y': 0.85}, // 左下
+        {'x': -0.85, 'y': -0.2}, // 左上
+      ];
+
+      for (int i = 0; i < count; i++) {
+        final module = modules[i];
+        final iconInfo = _getIconInfo(module);
+        final pos = positions[i];
+
+        icons.add(
+          Align(
+            alignment: FractionalOffset(
+              (pos['x']! + 1) / 2, // 将 -1~1 映射到 0~1 的 FractionalOffset 坐标
+              (pos['y']! + 1) / 2,
+            ),
+            child: Container(
+              decoration: const BoxDecoration(
+                color: Colors.white,
+                shape: BoxShape.circle,
+              ),
+              child: Icon(iconInfo.icon, size: 10, color: iconInfo.color),
+            ),
+          ),
+        );
+      }
     }
 
-    return Stack(children: [dayContainer, ...icons]);
+    return icons;
+  }
+
+  // 辅助方法：获取图标数据
+  _IconDataInfo _getIconInfo(CheckInModule module) {
+    switch (module) {
+      case CheckInModule.emo:
+        return _IconDataInfo(Icons.mood_rounded, Colors.pinkAccent);
+      case CheckInModule.sleep:
+        return _IconDataInfo(Icons.nights_stay_rounded, Colors.indigo);
+      case CheckInModule.eye:
+        return _IconDataInfo(Icons.remove_red_eye_rounded, Colors.teal);
+      case CheckInModule.normal:
+        return _IconDataInfo(Icons.wb_sunny_rounded, Colors.orange);
+      case CheckInModule.neck:
+        return _IconDataInfo(Icons.accessibility_new_rounded, Colors.green);
+    }
   }
 
   @override
@@ -257,4 +318,11 @@ class _CalendarWidgetState extends State<CalendarWidget> {
       ],
     );
   }
+}
+
+// 辅助类：用于传递图标和颜色
+class _IconDataInfo {
+  final IconData icon;
+  final Color color;
+  _IconDataInfo(this.icon, this.color);
 }
