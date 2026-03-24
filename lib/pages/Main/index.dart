@@ -163,7 +163,7 @@ class _MainPageState extends State<MainPage> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  "🎮 探索元气世界",
+                                  "🎮 探索草木层生小游戏",
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontSize: 18,
@@ -179,7 +179,7 @@ class _MainPageState extends State<MainPage> {
                                 ),
                                 SizedBox(height: 4),
                                 Text(
-                                  "打卡赚金币，建设你的家园",
+                                  "解压合成独特画卷",
                                   style: TextStyle(
                                     color: Colors.white70,
                                     fontSize: 12,

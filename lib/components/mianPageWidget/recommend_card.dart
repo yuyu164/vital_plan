@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:ui'; // 用于 ImageFilter
 
 class RecommendDart extends StatefulWidget {
-  RecommendDart({Key? key}) : super(key: key);
+  const RecommendDart({Key? key}) : super(key: key);
 
   @override
   _RecommendDartState createState() => _RecommendDartState();
@@ -13,7 +13,7 @@ class _RecommendDartState extends State<RecommendDart> {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      height: 140, // 增加高度以容纳更多内容
+      height: 140, // 保持高度
       child: GestureDetector(
         onTap: () {
           Navigator.pushNamed(context, "/check_in_chat");
@@ -22,7 +22,7 @@ class _RecommendDartState extends State<RecommendDart> {
           borderRadius: BorderRadius.circular(24),
           child: Stack(
             children: [
-              // 1. 渐变背景
+              // 1. 渐变背景底色
               Container(
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
@@ -56,63 +56,59 @@ class _RecommendDartState extends State<RecommendDart> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Container(
-                            padding: EdgeInsets.symmetric(
-                              horizontal: 8,
-                              vertical: 4,
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 12,
+                              vertical: 6,
                             ),
                             decoration: BoxDecoration(
-                              color: Colors.white.withOpacity(0.5),
-                              borderRadius: BorderRadius.circular(12),
+                              color: Colors.white.withOpacity(0.9),
+                              borderRadius: BorderRadius.circular(20),
                             ),
-                            child: Text(
-                              "✨ 每日元气签(待施工)",
+                            child: const Text(
+                              "我的健康档案",
                               style: TextStyle(
                                 fontSize: 12,
-                                color: Colors.blue[800],
-                                fontWeight: FontWeight.bold,
+                                color: Color(0xFF1D5CBB),
+                                fontWeight: FontWeight.w600,
                               ),
                             ),
                           ),
-                          SizedBox(height: 12),
-                          Text(
-                            "今天也要好好爱自己",
+                          const SizedBox(height: 14),
+                          const Text(
+                            "回顾健康，有问必答",
                             style: TextStyle(
-                              fontSize: 18,
+                              fontSize: 20,
                               fontWeight: FontWeight.bold,
-                              color: Colors.black87,
+                              color: Color(0xFF1A1A1A),
+                              letterSpacing: 1.1,
                             ),
                           ),
-                          SizedBox(height: 4),
-                          Text(
-                            "点击开启今日份的治愈",
+                          const SizedBox(height: 6),
+                          const Text(
+                            "查看我的调理记录 · 召唤 AI 助手",
                             style: TextStyle(
-                              fontSize: 12,
-                              color: Colors.black54,
+                              fontSize: 13,
+                              color: Color(0xFF888888),
                             ),
                           ),
                         ],
                       ),
                     ),
 
-                    // 右侧装饰图 (占位)
+                    // 右侧装饰图
                     Container(
-                      width: 80,
-                      height: 80,
-                      decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.4),
+                      width: 84,
+                      height: 84,
+                      decoration: const BoxDecoration(
+                        color: Color(0xFFDBD4EC), // 图标背景底色
                         shape: BoxShape.circle,
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.blue.withOpacity(0.1),
-                            blurRadius: 10,
-                            offset: Offset(0, 4),
-                          ),
-                        ],
                       ),
-                      child: Icon(
-                        Icons.local_florist,
-                        size: 40,
-                        color: Colors.pinkAccent.withOpacity(0.8),
+                      child: const Center(
+                        child: Icon(
+                          Icons.local_florist_rounded, // 圆润的花朵图标
+                          size: 44,
+                          color: Color(0xFFF36195),
+                        ),
                       ),
                     ),
                   ],
