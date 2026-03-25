@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:vital_plan/components/board/info_row.dart';
 import '../../api/action_service.dart';
 import '../../api/coin_service.dart';
+import '../../api/exp_service.dart'; // 引入 ExpService
 import '../../api/check_in_service.dart'; // 引入打卡服务
 import '../../viewmodels/action_model.dart';
 import '../../components/common/charge_button.dart';
@@ -256,7 +257,10 @@ class _BoardPageState extends State<BoardPage> {
                                 isHardAction: _currentAction!.difficulty >= 4,
                                 onCompleted: () async {
                                   final earned = _currentAction!.rewards.coins;
+                                  final earnedExp =
+                                      _currentAction!.rewards.exp; // 获取经验值
                                   await _coinService.addCoins(earned);
+                                  await ExpService.addExp(earnedExp); // 增加经验值
 
                                   // 记录打卡状态
                                   CheckInModule? module;
@@ -288,8 +292,10 @@ class _BoardPageState extends State<BoardPage> {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (context) =>
-                                            RewardPage(earnedCoins: earned),
+                                        builder: (context) => RewardPage(
+                                          earnedCoins: earned,
+                                          earnedExp: earnedExp, // 传入经验值
+                                        ),
                                       ),
                                     );
                                   }

@@ -1,15 +1,21 @@
 import 'package:flutter/material.dart';
 
 class RewardPage extends StatefulWidget {
-  final int earnedCoins;
+  final int earnedCoins; // 保留金币参数，以便向后兼容
+  final int earnedExp; // 新增经验值参数
 
-  const RewardPage({Key? key, required this.earnedCoins}) : super(key: key);
+  const RewardPage({
+    Key? key,
+    required this.earnedCoins,
+    this.earnedExp = 0, // 默认值为0，防止报错
+  }) : super(key: key);
 
   @override
   _RewardPageState createState() => _RewardPageState();
 }
 
-class _RewardPageState extends State<RewardPage> with SingleTickerProviderStateMixin {
+class _RewardPageState extends State<RewardPage>
+    with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _scaleAnimation;
 
@@ -51,7 +57,7 @@ class _RewardPageState extends State<RewardPage> with SingleTickerProviderStateM
                   color: Colors.black26,
                   blurRadius: 20,
                   offset: Offset(0, 10),
-                )
+                ),
               ],
             ),
             child: Column(
@@ -66,6 +72,7 @@ class _RewardPageState extends State<RewardPage> with SingleTickerProviderStateM
                   ),
                 ),
                 SizedBox(height: 20),
+                /* 原有金币图标和文案
                 Image.asset(
                   "lib/assets/images/coin/honest_graphic-money-bag-9772256_1920.png",
                   width: 80,
@@ -78,6 +85,31 @@ class _RewardPageState extends State<RewardPage> with SingleTickerProviderStateM
                     fontSize: 32,
                     fontWeight: FontWeight.bold,
                     color: Colors.amber[700],
+                  ),
+                ),
+                */
+
+                // 替换为经验值相关的 UI
+                Container(
+                  width: 80,
+                  height: 80,
+                  decoration: BoxDecoration(
+                    color: Colors.blue.shade50,
+                    shape: BoxShape.circle,
+                  ),
+                  child: Icon(
+                    Icons.star_rounded,
+                    size: 60,
+                    color: Colors.blueAccent,
+                  ),
+                ),
+                SizedBox(height: 10),
+                Text(
+                  "+ ${widget.earnedExp} 经验",
+                  style: TextStyle(
+                    fontSize: 32,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.blueAccent,
                   ),
                 ),
                 SizedBox(height: 30),
