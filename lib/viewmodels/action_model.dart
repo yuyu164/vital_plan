@@ -58,8 +58,8 @@ class ActionRewards {
 
   factory ActionRewards.fromJson(Map<String, dynamic> json) {
     return ActionRewards(
-      coins: json['coins'],
-      exp: json['exp'],
+      coins: json['coins'] ?? 0,
+      exp: json['exp'] ?? 0, // 增加默认值，防止为空时解析错误，虽然之前已改但这里为了安全
     );
   }
 }

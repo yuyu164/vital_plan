@@ -21,9 +21,11 @@ class VitalityCapsule extends StatelessWidget {
             icon: Icons.access_time_filled,
             label: "耗时",
             value: action.duration == "0" ? "即时" : action.duration,
-            color: theme.primary,
-            bgColor: theme.background,
+            color: theme.primary, // 统一使用主题主色
+            bgColor: theme.background, // 统一使用主题背景色
           ),
+          // 注释掉原有的金币显示逻辑
+          /*
           _buildCapsule(
             context,
             icon: Icons.monetization_on,
@@ -32,13 +34,23 @@ class VitalityCapsule extends StatelessWidget {
             color: Colors.amber[700]!,
             bgColor: Colors.amber[50]!,
           ),
+          */
+          // 替换为经验值显示逻辑
+          _buildCapsule(
+            context,
+            icon: Icons.star_rounded, // 使用星星图标代表经验
+            label: "经验",
+            value: "+${action.rewards.exp}", // 从模型中读取 exp
+            color: theme.primary, // 统一使用主题主色，不再使用固定的蓝色
+            bgColor: theme.background, // 统一使用主题背景色
+          ),
           _buildCapsule(
             context,
             icon: Icons.category,
             label: "类型",
             value: _getTypeLabel(action.interactionType),
-            color: theme.secondary,
-            bgColor: theme.background,
+            color: theme.primary, // 统一使用主题主色，使其与另外两个一致
+            bgColor: theme.background, // 统一使用主题背景色
           ),
         ],
       ),

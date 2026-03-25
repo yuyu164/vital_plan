@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:vital_plan/api/check_in_service.dart';
 import 'package:vital_plan/api/coin_service.dart';
+import 'package:vital_plan/api/exp_service.dart'; // 引入 ExpService
 import 'package:vital_plan/components/common/charge_button.dart';
 import 'package:vital_plan/pages/Reward/index.dart';
 import 'package:vital_plan/utils/image_dialog_utils.dart'; // 引入图片弹窗工具类
@@ -280,8 +281,12 @@ class _EmoPageState extends State<EmoPage> {
                                   rewardCoins: 30, // 情绪打卡默认给 30 金币
                                   isHardAction: false,
                                   onCompleted: () async {
-                                    // 添加金币
+                                    // 添加金币和经验
                                     await _coinService.addCoins(30);
+                                    await ExpService.addExp(
+                                      8,
+                                    ); // 根据您的要求，情绪板块每次打卡给 8 经验值
+
                                     // 记录打卡
                                     await CheckInService.addCheckInRecord(
                                       DateTime.now(),
@@ -292,8 +297,10 @@ class _EmoPageState extends State<EmoPage> {
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                          builder: (context) =>
-                                              RewardPage(earnedCoins: 30),
+                                          builder: (context) => RewardPage(
+                                            earnedCoins: 30,
+                                            earnedExp: 8, // 传入获得的经验值
+                                          ),
                                         ),
                                       );
                                     }

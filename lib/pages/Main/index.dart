@@ -3,11 +3,12 @@ import 'package:provider/provider.dart';
 import 'package:vital_plan/api/auth_service.dart';
 import 'package:vital_plan/components/mianPageWidget/second_row.dart';
 import 'package:vital_plan/pages/Game/index.dart';
-import 'package:vital_plan/pages/Login/index.dart';
+// import 'package:vital_plan/pages/Login/index.dart';
 import 'package:vital_plan/components/mianPageWidget/first_row.dart';
 import 'package:vital_plan/components/mianPageWidget/recommend_card.dart';
 import 'package:vital_plan/components/mianPageWidget/third_row.dart';
-import 'package:vital_plan/components/common/coin_badge.dart';
+// import 'package:vital_plan/components/common/coin_badge.dart';
+import 'package:vital_plan/components/common/exp_badge.dart'; // 引入新的经验值徽章
 import 'package:vital_plan/components/main_page/main_page_background.dart';
 
 class MainPage extends StatefulWidget {
@@ -96,7 +97,8 @@ class _MainPageState extends State<MainPage> {
           //   },
           // ),
           // leadingWidth: 100, // 增加 leading 宽度以容纳头像和昵称
-          actions: [CoinBadge()],
+          // actions: [CoinBadge()],
+          actions: [const ExpBadge()], // 在原来放 CoinBadge 的地方放 ExpBadge
         ),
         body: SafeArea(
           child: Padding(
