@@ -5,13 +5,15 @@ import 'package:vital_plan/pages/Game/index.dart';
 import 'package:vital_plan/pages/Check_in_chat/index.dart';
 import 'package:vital_plan/pages/Login/index.dart';
 import 'package:vital_plan/pages/Main/index.dart';
+import 'package:vital_plan/pages/Settings/index.dart';
+import 'package:vital_plan/pages/Settings/user_agreement.dart';
+import 'package:vital_plan/pages/Settings/privacy_policy.dart';
+import 'package:vital_plan/pages/Settings/ai_risk_statement.dart';
 import 'package:vital_plan/pages/auth_wrapper.dart';
 
 Widget getRootWidget() {
   return MaterialApp(initialRoute: "/", routes: getRootRoutes());
 }
-
-// 已移至顶部，与所有 import 指令保持一致
 
 // 路由配置表
 Map<String, Widget Function(BuildContext)> getRootRoutes() {
@@ -23,5 +25,9 @@ Map<String, Widget Function(BuildContext)> getRootRoutes() {
     "/check_in_chat": (context) => CheckInChatPage(),
     "/board": (context) => BoardPage(), // 看板路由
     "/emo": (context) => EmoPage(), // emo路由
+    "/settings": (context) => const SettingsPage(), // 关于页面路由
+    "/settings/user_agreement": (context) => const UserAgreementPage(),
+    "/settings/privacy_policy": (context) => const PrivacyPolicyPage(),
+    "/settings/ai_risk_statement": (context) => const AiRiskStatementPage(),
   };
 }

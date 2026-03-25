@@ -35,6 +35,12 @@ class _MainPageState extends State<MainPage> {
               fontWeight: FontWeight.bold,
             ),
           ),
+          leading: IconButton(
+            icon: const Icon(Icons.settings, color: Colors.black87),
+            onPressed: () {
+              Navigator.pushNamed(context, '/settings');
+            },
+          ),
           // leading: Consumer<AuthService>(
           //   builder: (context, auth, _) {
           //     return GestureDetector(
