@@ -1,37 +1,69 @@
-# vital_plan
+# 元气计划 (Vital Plan)
 
-A new Flutter project.
+## 📖 项目简介
+**元气计划**是一款专为大学生打造的**防久坐与中医养生游戏化 App**。
+本项目旨在通过结合传统中医养生知识（如穴位按摩、八段锦、明目功等）与游戏化激励机制，帮助用户缓解久坐带来的身体疲劳、保护颈椎与视力、改善熬夜后遗症，以及缓解负面情绪（EMO）。
 
-## Getting Started
+## ✨ 核心功能与模块
+根据实际开发内容，本项目重点实现了以下核心模块：
 
-This project is a starting point for a Flutter application.
+### 1. 身体调理模块
+应用将健康任务拆分为多个专注场景，通过计时器和图文引导帮助用户完成：
+* ☀️ **日常（保持活力）**：提供基础拉伸、穴位点按（百会、风府）、手腿部舒展以及八段锦选做等，帮助保持日常精力。
+* 🌙 **熬夜（紧急补救）**：针对熬夜后的心慌、脑缺氧，提供深呼吸补氧、轻补水、颈肩活血及特定穴位按摩（中封穴、曲泉穴）。
+* 👁️ **护眼（缓解疲劳）**：包含掌心温敷、远眺松肌法、眼部穴位轻按（睛明、四白）及道家明目功，缓解睫状肌紧张。
+* 💆 **颈椎（拒绝僵硬）**：引导用户进行极慢点头/转头、双手抱头对抗、侧颈拉伸及风池/肩井穴位按压，纠正不良坐姿。
 
-A few resources to get you started if this is your first Flutter project:
+### 2. EMO 情绪修复（特色中医七情调节）
+不同于传统的话疗或认知行为疗法（CBT），本项目创新性地结合了**中医“七情”（喜、怒、忧、思、悲、恐、惊）理论**来进行情绪修复：
+* 针对不同的负面情绪状态，匹配对应的经络与核心穴位（如：怒伤肝 -> 对应足厥阴肝经 -> 按摩太冲穴；忧伤肺 -> 对应手太阴肺经 -> 按摩太渊穴）。
+* 帮助用户通过中医经络的疏通与穴位按摩，从生理到心理缓解心烦焦虑、抑郁低落等情绪。
 
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
+### 3. 我的健康档案与 AI 助手
+* **打卡记录与日历 (`CheckInChat`)**：可视化记录用户的健康调理历程和每日打卡情况。
+* **LLM 智能对话助手**：内置大语言模型 (LLM) 对话界面，并作为专属健康助手随时解答用户的健康疑问。
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+### 4. 游戏化激励系统 (Gamification)
+* **经验值与金币体系**：完成健康任务（如按摩穴位 2 分钟、做拉伸等）可获得金币（Coins）与经验值（Exp）。
+* **探索草木层生小游戏**：内置了一款解压合成类2D小游戏（基于 Godot 引擎开发）。以游戏激励用户打开软件进行日常打卡。
 
+## 🛠 技术栈
+* **前端框架**：Flutter (支持 Android / iOS / Web 多端运行)
+* **游戏引擎集成**：Godot (通过 HTML5/WASM 导出，利用 `flutter_inappwebview` 嵌入并与 Flutter 宿主进行数据通信)
+* **状态管理**：Provider
+* **网络请求**：Dio
+* **本地存储**：`shared_preferences` & `flutter_secure_storage`
+* **日历组件**：`table_calendar`
 
+## 🚀 快速开始
 
-所属经络	原穴	输穴	核心对应调节情绪	辅助改善情绪 / 状态
-手太阴肺经	太渊	太渊 *	悲伤抑郁、情绪低落	胸闷气短、叹气频繁、忧思过度
-手少阴心经	神门	神门 *	心神不宁、焦虑烦躁	失眠多梦、心慌心悸、易惊易躁
-足太阴脾经	太白	太白 *	思虑过度、思绪杂乱	情绪低迷、行动力差、烦躁纳差
-足厥阴肝经	太冲	太冲 *	易怒暴躁、肝火郁结	头晕目胀、胸胁胀痛、情绪失控
-足少阴肾经	太溪	太溪 *	恐惧胆怯、心神不慌	胆小易惊、失眠盗汗、焦虑不安
-手厥阴心包经	大陵	大陵 *	心烦焦虑、郁气攻心	心悸胸闷、烦躁失眠、情绪压抑
-手阳明大肠经	合谷	三间	肺气郁结、烦躁易怒	头痛面胀、情绪憋闷、易怒不安
-手太阳小肠经	腕骨	后溪	心神不宁、烦躁失眠	多梦易醒、情绪焦躁、颈肩郁胀
-足阳明胃经	冲阳	陷谷	思虑气滞、烦躁胃堵	食少腹胀、情绪低迷、心烦嗳气
-足少阳胆经	丘墟	足临泣	胆虚易惊、烦躁易怒	头晕目眩、情绪不稳、胆小焦虑
-足太阳膀胱经	京骨	束骨	肾虚恐惊、情绪沉郁	腰膝酸软、失眠易惊、情绪低迷
-手少阳三焦经	阳池	中渚	气机郁滞、心烦胸闷	情绪憋闷、头晕耳鸣、烦躁不安
+### 环境准备
+1. 安装 [Flutter SDK](https://docs.flutter.dev/get-started/install) (要求版本 `>= 3.12.0`)
+2. 配置好 Android Studio 或 Xcode 开发环境
 
+### 运行项目
+```bash
+# 1. 克隆项目
+git clone <repository_url>
+cd vital_plan
 
-以7情为主各自对应一条经络，各自两个穴位
+# 2. 获取依赖
+flutter pub get
 
+# 3. 运行项目
+flutter run
+```
+
+## 📝 目录结构说明
+```text
+lib/
+├── api/             # 接口服务（签到、金币、经验值、AI 对话等）
+├── assets/          # 静态资源，包括穴位图、动作引导图(JSON数据)及 Godot 游戏包
+├── components/      # 页面复用组件（能量卡片、打卡日历、AI 对话框等）
+├── pages/           # 核心页面（主页、各个健康看板、EMO修复、小游戏、设置等）
+├── routes/          # 路由配置
+├── utils/           # 工具类（网络请求封装、主题配置、弹窗提示等）
+├── viewmodels/      # 业务逻辑与状态模型
+├── app.dart         # App 根组件配置
+└── main.dart        # 项目入口文件
+```
