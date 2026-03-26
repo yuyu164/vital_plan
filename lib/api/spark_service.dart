@@ -5,7 +5,7 @@ import '../utils/dio_client.dart';
 class SparkService {
   // 替换为您在讯飞开放平台申请的真实 APIPassword
   static const String _apiPassword =
-      "SECRET";
+      "mYLCGnSPYBqOBkyFHLaQ:HZngStymfGQUFozXprPN";
 
   // 兼容 OpenAI SDK 格式的星火统一 HTTP 调用地址
   static const String _baseUrl =
