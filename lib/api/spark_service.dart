@@ -5,7 +5,8 @@ import '../utils/dio_client.dart';
 class SparkService {
   static const String _baseUrl = String.fromEnvironment(
     'LLM_PROXY_URL',
-    defaultValue: 'http://127.0.0.1:8787/api/llm/chat/stream',
+    defaultValue:
+        'https://qnowezjtbhashvlrrrit.supabase.co/functions/v1/llm-proxy',
   );
   static const int _maxAttempts = 2;
   static const Duration _streamReceiveTimeout = Duration(minutes: 5);

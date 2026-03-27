@@ -51,19 +51,11 @@ cd vital_plan
 # 2. 获取依赖
 flutter pub get
 
-# 3. 启动 LLM 后端代理
-cd backend
-cp .env.example .env
-# 编辑 .env，填入 SPARK_API_PASSWORD
-npm install
-npm start
-cd ..
-
-# 4. 运行项目（移动端模拟器可直接使用默认代理地址）
+# 3. 运行项目
 flutter run
 
-# 5. Web/真机调试时指定代理地址
-flutter run --dart-define=LLM_PROXY_URL=http://<你的局域网IP>:8787/api/llm/chat/stream
+# 4. 使用 Supabase Edge Function（推荐）
+flutter run --dart-define=LLM_PROXY_URL=https://<你的-project-ref>.supabase.co/functions/v1/llm-proxy
 ```
 
 ## 📝 目录结构说明
