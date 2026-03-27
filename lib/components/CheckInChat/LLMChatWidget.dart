@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:dio/dio.dart';
 import 'package:vital_plan/api/spark_service.dart';
 
 class LLMChatWidget extends StatefulWidget {
@@ -11,6 +12,8 @@ class LLMChatWidget extends StatefulWidget {
 class _LLMChatWidgetState extends State<LLMChatWidget> {
   final TextEditingController _textController = TextEditingController();
   final ScrollController _scrollController = ScrollController();
+  CancelToken? _chatCancelToken;
+  static const int _contextTokenBudget = 1800;
 
   // 存储消息，格式兼容 OpenAI SDK: {'role': 'user'/'assistant'/'system', 'content': '...'}
   final List<Map<String, String>> _messages = [];
@@ -23,24 +26,48 @@ class _LLMChatWidgetState extends State<LLMChatWidget> {
     'content': '你是一个专为大学生服务的健康助手，你精通常规保健和中医知识，语气要温柔鼓励，回答尽量简短。',
   };
 
-  // 获取用于请求上下文的消息列表，限制最大轮数防止 Token 超限
-  List<Map<String, String>> _buildContextMessages() {
-    // 假设我们只保留最近的 6 条消息（3轮对话）加上 system prompt
-    const int maxHistoryLength = 6;
-    List<Map<String, String>> context = [_systemPrompt];
+  int _estimateTextTokens(String text) {
+    if (text.isEmpty) return 0;
+    int asciiCount = 0;
+    int nonAsciiCount = 0;
+    for (final rune in text.runes) {
+      if (rune <= 0x7F) {
+        asciiCount++;
+      } else {
+        nonAsciiCount++;
+      }
+    }
+    return (asciiCount / 4).ceil() + nonAsciiCount;
+  }
 
-    // 过滤掉当前正在生成的空 assistant 消息，因为星火 API 严格要求 content 不能为空！
+  int _estimateMessageTokens(Map<String, String> message) {
+    final role = message['role'] ?? '';
+    final content = message['content'] ?? '';
+    return 6 + _estimateTextTokens(role) + _estimateTextTokens(content);
+  }
+
+  List<Map<String, String>> _buildContextMessages() {
     final validMessages = _messages
         .where((msg) => msg['content']!.isNotEmpty)
         .toList();
+    int usedTokens = _estimateMessageTokens(_systemPrompt);
+    final selected = <Map<String, String>>[];
 
-    if (validMessages.length > maxHistoryLength) {
-      context.addAll(
-        validMessages.sublist(validMessages.length - maxHistoryLength),
-      );
-    } else {
-      context.addAll(validMessages);
+    for (int i = validMessages.length - 1; i >= 0; i--) {
+      final message = validMessages[i];
+      final messageTokens = _estimateMessageTokens(message);
+      if (usedTokens + messageTokens > _contextTokenBudget) {
+        break;
+      }
+      selected.insert(0, message);
+      usedTokens += messageTokens;
     }
+
+    if (selected.isEmpty && validMessages.isNotEmpty) {
+      selected.add(validMessages.last);
+    }
+
+    List<Map<String, String>> context = [_systemPrompt, ...selected];
     return context;
   }
 
@@ -83,18 +110,31 @@ class _LLMChatWidgetState extends State<LLMChatWidget> {
     });
 
     try {
+      _chatCancelToken?.cancel();
+      _chatCancelToken = CancelToken();
+      bool hasReceivedValidChunk = false;
       final contextMessages = _buildContextMessages();
-      print('Sending context: $contextMessages'); // 打印请求参数以便调试
-      final stream = SparkService.streamChat(contextMessages);
+      final stream = SparkService.streamChat(
+        contextMessages,
+        cancelToken: _chatCancelToken,
+      );
 
       await for (final chunk in stream) {
         if (!mounted) break;
+        if (chunk.trim().isNotEmpty) {
+          hasReceivedValidChunk = true;
+        }
         setState(() {
           // 实时将新的片段追加到最后一条消息的 content 中
           _messages.last['content'] = (_messages.last['content'] ?? '') + chunk;
         });
         // 每次更新都尝试滚动到底部（打字机跟随效果）
         _scrollToBottom();
+      }
+      if (mounted && !hasReceivedValidChunk) {
+        setState(() {
+          _messages.last['content'] = "我暂时没有生成内容，请重试一次。";
+        });
       }
     } catch (e) {
       if (mounted) {
@@ -104,6 +144,7 @@ class _LLMChatWidgetState extends State<LLMChatWidget> {
         });
       }
     } finally {
+      _chatCancelToken = null;
       if (mounted) {
         setState(() {
           _isGenerating = false;
@@ -114,6 +155,7 @@ class _LLMChatWidgetState extends State<LLMChatWidget> {
 
   @override
   void dispose() {
+    _chatCancelToken?.cancel();
     _textController.dispose();
     _scrollController.dispose();
     super.dispose();

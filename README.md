@@ -40,6 +40,7 @@
 ### 环境准备
 1. 安装 [Flutter SDK](https://docs.flutter.dev/get-started/install) (要求版本 `>= 3.12.0`)
 2. 配置好 Android Studio 或 Xcode 开发环境
+3. 安装 Node.js (要求版本 `>= 18`)
 
 ### 运行项目
 ```bash
@@ -50,8 +51,19 @@ cd vital_plan
 # 2. 获取依赖
 flutter pub get
 
-# 3. 运行项目
+# 3. 启动 LLM 后端代理
+cd backend
+cp .env.example .env
+# 编辑 .env，填入 SPARK_API_PASSWORD
+npm install
+npm start
+cd ..
+
+# 4. 运行项目（移动端模拟器可直接使用默认代理地址）
 flutter run
+
+# 5. Web/真机调试时指定代理地址
+flutter run --dart-define=LLM_PROXY_URL=http://<你的局域网IP>:8787/api/llm/chat/stream
 ```
 
 ## 📝 目录结构说明
