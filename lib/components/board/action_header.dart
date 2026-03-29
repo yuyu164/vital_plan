@@ -10,6 +10,7 @@ class ActionHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isVideoAction = ActionVideoSource.hasVideo(action.id);
     return Container(
       // height: 240, // 移除固定高度，让父容器决定
       width: double.infinity,
@@ -22,61 +23,63 @@ class ActionHeader extends StatelessWidget {
           _buildBackground(),
 
           // 2. 渐变蒙层 (提升文字可读性)
-          IgnorePointer(
-            child: Container(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [Colors.transparent, Colors.black.withOpacity(0.7)],
-                  stops: [0.6, 1.0],
+          if (!isVideoAction)
+            IgnorePointer(
+              child: Container(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [Colors.transparent, Colors.black.withOpacity(0.7)],
+                    stops: [0.6, 1.0],
+                  ),
                 ),
               ),
             ),
-          ),
 
           // 3. 底部标题信息
-          Positioned(
-            left: 20,
-            right: 20,
-            bottom: 20,
-            child: IgnorePointer(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // 难度星级
-                  Row(
-                    children: List.generate(5, (index) {
-                      return Icon(
-                        index < action.difficulty
-                            ? Icons.star
-                            : Icons.star_border,
-                        color: Colors.amber,
-                        size: 20,
-                      );
-                    }),
-                  ),
-                  SizedBox(height: 8),
-                  // 标题
-                  Text(
-                    action.title,
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 28,
-                      fontWeight: FontWeight.bold,
-                      shadows: [
-                        Shadow(
-                          blurRadius: 10.0,
-                          color: Colors.black45,
-                          offset: Offset(2.0, 2.0),
-                        ),
-                      ],
+          if (!isVideoAction)
+            Positioned(
+              left: 20,
+              right: 20,
+              bottom: 20,
+              child: IgnorePointer(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // 难度星级
+                    Row(
+                      children: List.generate(5, (index) {
+                        return Icon(
+                          index < action.difficulty
+                              ? Icons.star
+                              : Icons.star_border,
+                          color: Colors.amber,
+                          size: 20,
+                        );
+                      }),
                     ),
-                  ),
-                ],
+                    SizedBox(height: 8),
+                    // 标题
+                    Text(
+                      action.title,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 28,
+                        fontWeight: FontWeight.bold,
+                        shadows: [
+                          Shadow(
+                            blurRadius: 10.0,
+                            color: Colors.black45,
+                            offset: Offset(2.0, 2.0),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
         ],
       ),
     );

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:vital_plan/components/board/info_row.dart';
 import '../../api/action_service.dart';
+import '../../api/action_video_source.dart';
 import '../../api/coin_service.dart';
 import '../../api/exp_service.dart'; // 引入 ExpService
 import '../../api/check_in_service.dart'; // 引入打卡服务
@@ -146,13 +147,24 @@ class _BoardPageState extends State<BoardPage> {
 
     // 获取当前板块主题
     final theme = ThemeHelper.getTheme(_currentAction!.board);
+    final isVideoAction = ActionVideoSource.hasVideo(_currentAction!.id);
+    final screenSize = MediaQuery.of(context).size;
+    final videoHeaderHeightByAspect = screenSize.width * 9 / 16;
+    final videoHeaderHeight = videoHeaderHeightByAspect.clamp(
+      screenSize.height * 0.48,
+      screenSize.height * 0.58,
+    );
+    final defaultHeaderHeight = MediaQuery.of(context).size.height * 0.4;
+    final headerHeight = isVideoAction
+        ? videoHeaderHeight
+        : defaultHeaderHeight;
 
     // 使用 Column + Transform.translate 实现稳定的覆盖效果
     return Column(
       children: [
         // 1. 顶部 Header (固定高度)
         Container(
-          height: MediaQuery.of(context).size.height * 0.4, // 调整为屏幕高度的 55%
+          height: headerHeight,
           width: double.infinity,
           child: Stack(
             children: [
@@ -184,7 +196,7 @@ class _BoardPageState extends State<BoardPage> {
           child: Stack(
             children: [
               Positioned.fill(
-                top: -20,
+                top: isVideoAction ? -12 : -20,
                 child: Container(
                   decoration: BoxDecoration(
                     color: Colors.white,
@@ -201,14 +213,14 @@ class _BoardPageState extends State<BoardPage> {
                     ],
                   ),
                   child: Padding(
-                    padding: const EdgeInsets.fromLTRB(
+                    padding: EdgeInsets.fromLTRB(
                       24,
-                      30,
+                      isVideoAction ? 20 : 30,
                       24,
                       0,
-                    ), // 底部 padding 去掉，避免 extra space
+                    ),
                     child: SingleChildScrollView(
-                      padding: EdgeInsets.only(bottom: 16),
+                      padding: EdgeInsets.only(bottom: isVideoAction ? 8 : 16),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [

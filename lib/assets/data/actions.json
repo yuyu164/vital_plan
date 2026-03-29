@@ -104,9 +104,9 @@
   {
     "id": "act_normal_07",
     "board": "normal",
-    "title": "八段锦选做",
-    "description": "八段锦片段（如“一、二、三、四、五、六、七、八”），每个片段2-3分钟",
-    "duration": "3m",
+    "title": "健身气功八段锦",
+    "description": "“中式帕梅拉”健身气功-八段锦，由全国健身气功·八段锦冠军演练，具有柔筋健骨、养气壮力、行气活血、畅通经脉等功能",
+    "duration": "12m",
     "difficulty": 5,
     "interactionType": "TIMER",
     "assets": {
@@ -122,8 +122,8 @@
     "id": "act_normal_08",
     "board": "normal",
     "title": "明目功",
-    "description": "道家养生明目功，系统性锻炼眼部肌肉与经络",
-    "duration": "5m",
+    "description": "明目益视功，由北京体育大学王晓军教授演练，可缓解眼疲劳、促进眼部血液循环",
+    "duration": "8m",
     "difficulty": 5,
     "interactionType": "TIMER",
     "assets": {
@@ -326,8 +326,8 @@
     "id": "act_eye_mingmu",
     "board": "eye_strain",
     "title": "明目功",
-    "description": "明目功",
-    "duration": "5m",
+    "description": "明目益视功，由北京体育大学王晓军教授演练，可缓解眼疲劳、促进眼部血液流通",
+    "duration": "8m",
     "difficulty": 5,
     "interactionType": "TIMER",
     "assets": {
