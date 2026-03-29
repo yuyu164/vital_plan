@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'action_video.dart';
+import '../../api/action_video_source.dart';
 import '../../viewmodels/action_model.dart';
 
 class ActionHeader extends StatelessWidget {
@@ -20,13 +22,15 @@ class ActionHeader extends StatelessWidget {
           _buildBackground(),
 
           // 2. 渐变蒙层 (提升文字可读性)
-          Container(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [Colors.transparent, Colors.black.withOpacity(0.7)],
-                stops: [0.6, 1.0],
+          IgnorePointer(
+            child: Container(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [Colors.transparent, Colors.black.withOpacity(0.7)],
+                  stops: [0.6, 1.0],
+                ),
               ),
             ),
           ),
@@ -36,39 +40,41 @@ class ActionHeader extends StatelessWidget {
             left: 20,
             right: 20,
             bottom: 20,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // 难度星级
-                Row(
-                  children: List.generate(5, (index) {
-                    return Icon(
-                      index < action.difficulty
-                          ? Icons.star
-                          : Icons.star_border,
-                      color: Colors.amber,
-                      size: 20,
-                    );
-                  }),
-                ),
-                SizedBox(height: 8),
-                // 标题
-                Text(
-                  action.title,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 28,
-                    fontWeight: FontWeight.bold,
-                    shadows: [
-                      Shadow(
-                        blurRadius: 10.0,
-                        color: Colors.black45,
-                        offset: Offset(2.0, 2.0),
-                      ),
-                    ],
+            child: IgnorePointer(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // 难度星级
+                  Row(
+                    children: List.generate(5, (index) {
+                      return Icon(
+                        index < action.difficulty
+                            ? Icons.star
+                            : Icons.star_border,
+                        color: Colors.amber,
+                        size: 20,
+                      );
+                    }),
                   ),
-                ),
-              ],
+                  SizedBox(height: 8),
+                  // 标题
+                  Text(
+                    action.title,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 28,
+                      fontWeight: FontWeight.bold,
+                      shadows: [
+                        Shadow(
+                          blurRadius: 10.0,
+                          color: Colors.black45,
+                          offset: Offset(2.0, 2.0),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ],
@@ -77,6 +83,10 @@ class ActionHeader extends StatelessWidget {
   }
 
   Widget _buildBackground() {
+    if (ActionVideoSource.hasVideo(action.id)) {
+      return ActionVideo(action: action);
+    }
+
     return Container(
       decoration: BoxDecoration(color: Colors.grey[800]),
       child: Stack(
