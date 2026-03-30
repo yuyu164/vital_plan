@@ -13,7 +13,6 @@ class CalendarWidget extends StatefulWidget {
 }
 
 class _CalendarWidgetState extends State<CalendarWidget> {
-  CalendarFormat _calendarFormat = CalendarFormat.month;
   DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDay;
 
@@ -255,12 +254,7 @@ class _CalendarWidgetState extends State<CalendarWidget> {
             firstDay: DateTime.utc(2020, 1, 1),
             lastDay: DateTime.utc(2030, 12, 31),
             focusedDay: _focusedDay,
-            calendarFormat: _calendarFormat,
-            availableCalendarFormats: const {
-              CalendarFormat.month: '月',
-              CalendarFormat.twoWeeks: '双周',
-              CalendarFormat.week: '周',
-            },
+            calendarFormat: CalendarFormat.month,
             selectedDayPredicate: (day) {
               return isSameDay(_selectedDay, day);
             },
@@ -272,24 +266,20 @@ class _CalendarWidgetState extends State<CalendarWidget> {
                 });
               }
             },
-            onFormatChanged: (format) {
-              if (_calendarFormat != format) {
-                setState(() {
-                  _calendarFormat = format;
-                });
-              }
-            },
             onPageChanged: (focusedDay) {
               _focusedDay = focusedDay;
             },
             headerStyle: HeaderStyle(
-              formatButtonVisible: true,
+              formatButtonVisible: false,
               titleCentered: true,
-              formatButtonDecoration: BoxDecoration(
-                color: Theme.of(context).primaryColor,
-                borderRadius: BorderRadius.circular(20.0),
-              ),
-              formatButtonTextStyle: const TextStyle(color: Colors.white),
+              titleTextFormatter: (date, locale) =>
+                  '${date.year}年 ${date.month}月',
+            ),
+            daysOfWeekStyle: DaysOfWeekStyle(
+              dowTextFormatter: (date, locale) {
+                const labels = ['日', '一', '二', '三', '四', '五', '六'];
+                return labels[date.weekday % 7];
+              },
             ),
             // 使用 calendarBuilders 自定义渲染每天的样式
             calendarBuilders: CalendarBuilders(

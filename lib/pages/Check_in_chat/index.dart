@@ -24,7 +24,7 @@ class _CheckInChatPageState extends State<CheckInChatPage> {
           elevation: 0,
           centerTitle: true,
           title: Text(
-            "打卡记录",
+            "打卡日历",
             style: TextStyle(
               color: Colors.black87,
               fontWeight: FontWeight.bold,
