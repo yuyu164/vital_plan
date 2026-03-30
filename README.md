@@ -54,8 +54,11 @@ flutter pub get
 # 3. 运行项目
 flutter run
 
-# 4. 使用 Supabase Edge Function（推荐）
-flutter run --dart-define=LLM_PROXY_URL=https://<你的-project-ref>.supabase.co/functions/v1/llm-proxy
+# 4. 使用 Supabase（推荐）
+flutter run --dart-define=LLM_PROXY_URL=https://<你的-project-ref>.supabase.co/functions/v1/llm-proxy --dart-define=SUPABASE_URL=https://<你的-project-ref>.supabase.co
+
+# 5. 构建正式 APK（需要配置 android/key.properties）
+flutter build apk --release --dart-define=LLM_PROXY_URL=https://<你的-project-ref>.supabase.co/functions/v1/llm-proxy --dart-define=SUPABASE_URL=https://<你的-project-ref>.supabase.co
 ```
 
 ## 📝 目录结构说明

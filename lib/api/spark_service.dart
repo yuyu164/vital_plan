@@ -3,11 +3,16 @@ import 'package:dio/dio.dart';
 import '../utils/dio_client.dart';
 
 class SparkService {
-  static const String _baseUrl = String.fromEnvironment(
+  static const bool _isReleaseBuild = bool.fromEnvironment('dart.vm.product');
+  static const String _configuredLlmProxyUrl = String.fromEnvironment(
     'LLM_PROXY_URL',
-    defaultValue:
-        'https://qnowezjtbhashvlrrrit.supabase.co/functions/v1/llm-proxy',
+    defaultValue: '',
   );
+  static const String _debugFallbackLlmProxyUrl =
+      'https://qnowezjtbhashvlrrrit.supabase.co/functions/v1/llm-proxy';
+  static final String _baseUrl = _configuredLlmProxyUrl.isNotEmpty
+      ? _configuredLlmProxyUrl
+      : (_isReleaseBuild ? '' : _debugFallbackLlmProxyUrl);
   static const int _maxAttempts = 2;
   static const Duration _streamReceiveTimeout = Duration(minutes: 5);
 
@@ -37,6 +42,10 @@ class SparkService {
     List<Map<String, String>> messages, {
     CancelToken? cancelToken,
   }) async* {
+    if (_baseUrl.isEmpty) {
+      yield "\n[未配置 LLM_PROXY_URL，请设置后重试]";
+      return;
+    }
     final dio = DioClient().dio;
 
     final requestData = {

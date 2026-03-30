@@ -1,4 +1,4 @@
-package com.example.vital_plan
+package com.vitalplan.app
 
 import io.flutter.embedding.android.FlutterActivity
 

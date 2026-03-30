@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     id("com.android.application")
     id("kotlin-android")
@@ -5,8 +7,21 @@ plugins {
     id("dev.flutter.flutter-gradle-plugin")
 }
 
+val keystoreProperties = Properties()
+val keystorePropertiesFile = rootProject.file("key.properties")
+if (keystorePropertiesFile.exists()) {
+    keystorePropertiesFile.inputStream().use { keystoreProperties.load(it) }
+}
+
+val isReleaseTaskRequested = gradle.startParameter.taskNames.any {
+    it.contains("release", ignoreCase = true)
+}
+if (isReleaseTaskRequested && !keystorePropertiesFile.exists()) {
+    throw GradleException("缺少 android/key.properties，无法执行正式签名发布。")
+}
+
 android {
-    namespace = "com.example.vital_plan"
+    namespace = "com.vitalplan.app"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
@@ -21,7 +36,7 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId = "com.example.vital_plan"
+        applicationId = "com.vitalplan.app"
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
         minSdk = flutter.minSdkVersion
@@ -30,11 +45,34 @@ android {
         versionName = flutter.versionName
     }
 
+    signingConfigs {
+        if (keystorePropertiesFile.exists()) {
+            create("release") {
+                val storeFilePath = keystoreProperties.getProperty("storeFile")
+                val storePassword = keystoreProperties.getProperty("storePassword")
+                val keyAlias = keystoreProperties.getProperty("keyAlias")
+                val keyPassword = keystoreProperties.getProperty("keyPassword")
+                if (
+                    storeFilePath.isNullOrBlank() ||
+                    storePassword.isNullOrBlank() ||
+                    keyAlias.isNullOrBlank() ||
+                    keyPassword.isNullOrBlank()
+                ) {
+                    throw GradleException("android/key.properties 缺少必要字段：storeFile/storePassword/keyAlias/keyPassword")
+                }
+                this.storeFile = rootProject.file(storeFilePath)
+                this.storePassword = storePassword
+                this.keyAlias = keyAlias
+                this.keyPassword = keyPassword
+            }
+        }
+    }
+
     buildTypes {
         release {
-            // TODO: Add your own signing config for the release build.
-            // Signing with the debug keys for now, so `flutter run --release` works.
-            signingConfig = signingConfigs.getByName("debug")
+            if (keystorePropertiesFile.exists()) {
+                signingConfig = signingConfigs.getByName("release")
+            }
         }
     }
 }
