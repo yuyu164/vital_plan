@@ -318,7 +318,7 @@ class _BoardPageState extends State<BoardPage> {
                                 padding: const EdgeInsets.only(top: 12.0),
                                 child: Text(
                                   _currentAction!.difficulty >= 4
-                                      ? "挑战极限，赢取大奖！"
+                                      ? "养生悦己，活力续航"
                                       : "长按 1.2s 完成打卡",
                                   style: TextStyle(
                                     color: Colors.grey[500],
